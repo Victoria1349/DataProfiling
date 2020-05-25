@@ -53,7 +53,11 @@ class Cleaning(object):
         return rez
 
     def cleanSkips(data):
-        resData = pd.DataFrame()
+        resData = data
+
+        for col in data:
+            resData = resData.dropna(axis='index', how='any', subset=[col])
+
         return resData
 
     def findEjections(data):
@@ -156,4 +160,4 @@ ser = pd.Series([10, 20, 30, 20, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
 
 
 print("--")
-print(Cleaning.findSkips(df))
+print(Cleaning.cleanSkips(df))
