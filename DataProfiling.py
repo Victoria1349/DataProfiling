@@ -36,6 +36,9 @@ class Profiling(object):
 
 class Cleaning(object):
 
+    def isNull(cnt):
+        return cnt == 0
+
     def findSkips(data):
         rez = pd.Series()
         id = 0
@@ -69,8 +72,21 @@ class Cleaning(object):
         return resData
 
     def findNulls(data):
-        ids = [0,0,0]
-        return ids
+        rez = pd.Series()
+        id = 0
+        str = 0
+
+        for col in data:
+            for el in data[col]:
+                if Cleaning.isNull(el):
+                    d = {col: str}
+                    rez[id.__str__()] = d
+                str = str + 1
+                if str > 3:
+                    str = str - 4
+            id = id + 1
+
+        return rez
 
     def numbOfSkips(data):
         numb = 0
@@ -150,7 +166,7 @@ class Report(object):
 #df = pd.DataFrame(np.random.randn(3,3),index='A B C'.split(),columns='1 2 3'.split())
 #df = pd.DataFrame(d)
 
-data = 'price,count,percent\n1,10,\n2,20,51\n3,30,'
+data = 'price,count,percent\n1,10,\n0,20,51\n3,0,'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 print(df)
@@ -160,4 +176,4 @@ ser = pd.Series([10, 20, 30, 20, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
 
 
 print("--")
-print(Cleaning.cleanSkips(df))
+print(Cleaning.findNulls(df))
