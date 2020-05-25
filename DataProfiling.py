@@ -1,7 +1,8 @@
 # Python 3
 import pandas as pd
+import numpy as np
 
-class DataProfiling(pd.DataFrame):
+class DataProfiling(object):
     data = pd.DataFrame()
 
     def __init__(self, dt):
@@ -12,8 +13,8 @@ class DataProfiling(pd.DataFrame):
 class Profiling(object):
 
     def dataType(col):
-        str = "Hello world"
-        return str
+        print(col.__class__())
+        return col.dtypes
 
     def funcType(func):
         str = "Hello world"
@@ -126,7 +127,19 @@ class Report(object):
         str = "Hello world"
 
 
+# ------------------------------------------------------------------------------------------------
+
+d = {'one': pd.Series([1, 2, 3], index=['a', 'b', 'c']), 'two': pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])}
+#df = pd.DataFrame(np.random.randn(3,3),index='A B C'.split(),columns='1 2 3'.split())
+df = pd.DataFrame(d)
+#print(df)
+#print(df.dtypes)
+#print("df.class = ", df.__class__())
+
+ser = pd.Series([10, 20, 30], ['a', 'b', 'c'])
+#print(ser.dtype)
+#print("ser.class = ", ser.__class__())
 
 
-
-
+print("--")
+print(Profiling.dataType(ser))
