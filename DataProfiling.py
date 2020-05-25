@@ -24,9 +24,8 @@ class Profiling(object):
         resData = pd.DataFrame()
         return resData
 
-    def numbOfRepetitionsOfOneValueInColumn(data):
-        numbs = [0,0,0]
-        return numbs
+    def numbOfRepetitionsOfOneValueInColumn(col):
+        return col.value_counts()
 
     def dataStandardization(col):
         resCol = pd.Series()
@@ -136,10 +135,10 @@ df = pd.DataFrame(d)
 #print(df.dtypes)
 #print("df.class = ", df.__class__())
 
-ser = pd.Series([10, 20, 30], ['a', 'b', 'c'])
+ser = pd.Series([10, 20, 30, 20, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
 #print(ser.dtype)
 #print("ser.class = ", ser.__class__())
 
 
 print("--")
-print(Profiling.dataType(ser))
+print(Profiling.numbOfRepetitionsOfOneValueInColumn(ser))
