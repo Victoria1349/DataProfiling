@@ -2,6 +2,7 @@
 import pandas as pd
 import numpy as np
 #import xray
+from io import StringIO
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -14,7 +15,7 @@ class DataProfiling(object):
 class Profiling(object):
 
     def dataType(col):
-        print(col.__class__())
+        #print(col.__class__())
         return col.dtypes
 
     def funcType(func):
@@ -36,8 +37,20 @@ class Profiling(object):
 class Cleaning(object):
 
     def findSkips(data):
-        ids = [0, 0, 0]
-        return ids
+        rez = pd.Series()
+        id = 0
+
+        for col in data:
+            index = df[col].index[df[col].apply(np.isnan)]
+            df_index = df.index.values.tolist()
+            for i in index:
+                ind = df_index.index(i)
+                # добавить данные в Series
+                d = {col: ind}
+                rez[id.__str__()] = d
+                id = id + 1
+
+        return rez
 
     def cleanSkips(data):
         resData = pd.DataFrame()
@@ -129,19 +142,18 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-d = {'one': pd.Series([1., 2., 3.], index=['a', 'b', 'c']), 'two': pd.Series([1., 2., 4., 4.], index=['a', 'b', 'c', 'd'])}
+#d = {'one': pd.Series([1., 2., 3.], index=['a', 'b', 'c']), 'two': pd.Series([1., 2., 4., 4.], index=['a', 'b', 'c', 'd'])}
 #df = pd.DataFrame(np.random.randn(3,3),index='A B C'.split(),columns='1 2 3'.split())
-df = pd.DataFrame(d)
-print(df)
+#df = pd.DataFrame(d)
 
-#print(df.dtypes)
-#print("df.class = ", df.__class__())
+data = 'price,count,percent\n1,10,\n2,20,51\n3,30,'
+df = pd.read_csv(StringIO(data))
+df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
+print(df)
 
 ser = pd.Series([10, 20, 30, 20, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
 #print(ser)
-#print(ser.dtype)
-#print("ser.class = ", ser.__class__())
 
 
 print("--")
-print(Profiling.numbOfRepetitionsOfOneValueInColumn(df))
+print(Cleaning.findSkips(df))
