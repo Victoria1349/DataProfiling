@@ -26,17 +26,7 @@ class Profiling(object):
         return resData
 
     def numbOfRepetitionsOfOneValueInColumn(data):
-        cols = data.columns
-        #rez = pd.DataFrame()
-        d = 0
-
-        for col in cols:
-            d = d + data[col].value_counts()
-            print(d)
-            #rez.append(pd.Series(d))
-            print('------')
-
-        return d
+        return data.stack().value_counts()
 
     def dataStandardization(col):
         resCol = pd.Series()
