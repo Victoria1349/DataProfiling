@@ -130,8 +130,7 @@ class Statistics(object):
         return ids
 
     def moda(col):
-        moda = 0.0
-        return moda
+        return col.mode()
 
     def maxValue(col):
         maxValue = 0.0
@@ -183,11 +182,11 @@ data = 'price,count,percent\n1,10,\n1,10,\n0,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': None, 'percent': 26.3}
-print(df)
+#print(df)
 
-ser = pd.Series([np.nan, 20, 30, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-#print(ser)
+ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
+print(ser)
 
 
 print("--")
-print(Cleaning.delDuplicates(df))
+print(Statistics.moda(ser))
