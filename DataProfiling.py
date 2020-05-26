@@ -88,8 +88,9 @@ class Cleaning(object):
 
         return rez
 
-    def numbOfSkips(data):
-        numb = 0
+    def cntOfSkips(data):
+        df = Cleaning.findSkips(data)
+        numb = len(df)
         return numb
 
     def findMissingData(data):
@@ -176,4 +177,4 @@ ser = pd.Series([10, 20, 30, 20, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
 
 
 print("--")
-print(Cleaning.findNulls(df))
+print(Cleaning.cntOfSkips(df))
