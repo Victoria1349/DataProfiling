@@ -133,12 +133,10 @@ class Statistics(object):
         return col.mode()
 
     def maxValue(col):
-        maxValue = 0.0
-        return maxValue
+        return col.max()
 
     def minValue(col):
-        minValue = 0.0
-        return minValue
+        return col.min()
 
     def meanValue(col):
         meanValue = 0.0
@@ -189,4 +187,4 @@ print(ser)
 
 
 print("--")
-print(Statistics.moda(ser))
+print(Statistics.minValue(ser))
