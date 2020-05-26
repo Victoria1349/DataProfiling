@@ -105,8 +105,17 @@ class Cleaning(object):
         return cnt
 
     def delDuplicates(data):
-        resData = pd.DataFrame()
-        return resData
+        tmp = pd.Series()
+        indexes = []
+
+        for i in range(len(data)):
+            tmp[i.__str__()] = data.loc[i]
+            for j in range(i):
+                if  pd.Series.equals(tmp[i.__str__()], tmp[j.__str__()]):
+                    indexes.append(i)
+
+        df = data.drop(data.index[indexes])
+        return df
 
 
 
@@ -170,14 +179,15 @@ class Report(object):
 #df = pd.DataFrame(np.random.randn(3,3),index='A B C'.split(),columns='1 2 3'.split())
 #df = pd.DataFrame(d)
 
-data = 'price,count,percent\n1,10,\n0,20,51\n3,0,'
+data = 'price,count,percent\n1,10,\n1,10,\n0,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
-#print(df)
+df.loc[4] = {'price': 4, 'count': None, 'percent': 26.3}
+print(df)
 
 ser = pd.Series([np.nan, 20, 30, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-print(ser)
+#print(ser)
 
 
 print("--")
-print(Cleaning.cntOfSkipDataInColumn(ser))
+print(Cleaning.delDuplicates(df))
