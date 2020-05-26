@@ -139,12 +139,10 @@ class Statistics(object):
         return col.min()
 
     def meanValue(col):
-        meanValue = 0.0
-        return meanValue
+        return col.mean()
 
     def median(col):
-        median = 0.0
-        return median
+        return col.median()
 
 
 
@@ -187,4 +185,4 @@ print(ser)
 
 
 print("--")
-print(Statistics.minValue(ser))
+print(Statistics.median(ser))
