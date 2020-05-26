@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 #import xray
 from io import StringIO
+import matplotlib.pyplot as plt
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -15,7 +16,6 @@ class DataProfiling(object):
 class Profiling(object):
 
     def dataType(col):
-        #print(col.__class__())
         return col.dtypes
 
     def funcType(func):
@@ -57,7 +57,6 @@ class Cleaning(object):
 
     def cleanSkips(data):
         resData = data
-
         for col in data:
             resData = resData.dropna(axis='index', how='any', subset=[col])
 
@@ -75,7 +74,6 @@ class Cleaning(object):
         rez = pd.Series()
         id = 0
         str = 0
-
         for col in data:
             for el in data[col]:
                 if Cleaning.isNull(el):
@@ -107,7 +105,6 @@ class Cleaning(object):
     def delDuplicates(data):
         tmp = pd.Series()
         indexes = []
-
         for i in range(len(data)):
             tmp[i.__str__()] = data.loc[i]
             for j in range(i):
@@ -159,7 +156,9 @@ class Structures(object):
 class Vizual(object):
 
     def datasetVisualization(data):
-        str = "Hello world"
+        #str = "Hello world"
+        pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
+        plt.show()
 
 
 class Report(object):
@@ -170,19 +169,15 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-#d = {'one': pd.Series([1., 2., 3.], index=['a', 'b', 'c']), 'two': pd.Series([1., 2., 4., 4.], index=['a', 'b', 'c', 'd'])}
-#df = pd.DataFrame(np.random.randn(3,3),index='A B C'.split(),columns='1 2 3'.split())
-#df = pd.DataFrame(d)
-
-data = 'price,count,percent\n1,10,\n1,10,\n0,20,51'
+data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
-df.loc[4] = {'price': 4, 'count': None, 'percent': 26.3}
-#print(df)
+df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
+print(df)
 
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-print(ser)
+#print(ser)
 
 
 print("--")
-print(Statistics.median(ser))
+print(Vizual.datasetVisualization(df))
