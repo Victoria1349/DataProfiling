@@ -44,8 +44,8 @@ class Profiling(object):
 
         return resCol
 
-    def dataNormalization(col):                 # ? indexes
-        resCol = col #Cleaning.cleanSkipsSer(col)
+    def dataNormalization(col):
+        resCol = col
         min = Statistics.minValue(resCol)
         max = Statistics.maxValue(resCol)
         i = 0
@@ -53,9 +53,7 @@ class Profiling(object):
         for el in col:
             if el == el:
                 tmp = (el - min) / (max - min)
-                resCol[i] = tmp
-
-                #i = i + 1
+                resCol[resCol.index[i]] = tmp
             i = i + 1
 
         return resCol
@@ -89,7 +87,7 @@ class Cleaning(object):
 
         return resData
 
-    def cleanSkipsSer(col):                 # ? indexes
+    def cleanSkipsSer(col):                 # indexes !!
         resCol = col
         ind1 = 0
         ind2 = 0
@@ -234,4 +232,4 @@ print(ser)
 
 
 print("--")
-print(Cleaning.cleanSkipsSer(ser))
+print(Profiling.dataNormalization(ser))
