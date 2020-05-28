@@ -18,19 +18,29 @@ class Profiling(object):
     def dataType(col):
         return col.dtypes
 
-    def funcType(func):
+    def funcType(func):                 # !
         str = "Hello world"
         return str
 
-    def findMistakes(data):
+    def findMistakes(data):                 # !
         resData = pd.DataFrame()
         return resData
 
     def numbOfRepetitionsOfOneValueInColumn(data):
         return data.stack().value_counts()
 
-    def dataStandardization(col):
+    def dataStandardization(col):                 # !
         resCol = pd.Series()
+        return resCol
+
+    def dataNormalization(col):                 # !
+        resCol = pd.Series()
+
+        for el in col:
+            if el == el:
+                print(col.index(el))
+                #resCol[col[el]]
+
         return resCol
 
 
@@ -55,18 +65,33 @@ class Cleaning(object):
 
         return rez
 
-    def cleanSkips(data):
+    def cleanSkipsDF(data):
         resData = data
         for col in data:
             resData = resData.dropna(axis='index', how='any', subset=[col])
 
         return resData
 
-    def findEjections(data):
+    def cleanSkipsSer(col):                 # ? indexes
+        resCol = pd.Series()
+        '''print(resCol.index[len(resCol)-1])
+        resCol.drop((resCol.index[len(resCol)-1]))'''
+        ind1 = 0
+        ind2 = 0
+        for el in col:
+            if el == el:
+                #print(col[ind1])
+                resCol[ind1.__str__()] = col[ind1]
+                ind2 = ind2 + 1
+            ind1 = ind1 + 1
+
+        return resCol
+
+    def findEjections(data):                 # !
         ids = [0, 0, 0]
         return ids
 
-    def cleanEjections(data):
+    def cleanEjections(data):                 # !
         resData = pd.DataFrame()
         return resData
 
@@ -91,7 +116,7 @@ class Cleaning(object):
         numb = len(df)
         return numb
 
-    def findMissingData(data):
+    def findMissingData(data):                 # !
         ids = [0,0,0]
         return ids
 
@@ -118,11 +143,11 @@ class Cleaning(object):
 
 class Statistics(object):
 
-    def distributionFunc(data):
+    def distributionFunc(data):                 # !
         str = "Hello world"
         return str
 
-    def frequencyFunc(data):
+    def frequencyFunc(data):                 # !
         ids = [0.0, 0.0, 0.0]
         return ids
 
@@ -145,17 +170,17 @@ class Statistics(object):
 
 class Structures(object):
 
-    def structureDetection(data):
+    def structureDetection(data):                 # !
         str = "Hello world"
 
-    def relationsDetection(data):
+    def relationsDetection(data):                 # !
         str = "Hello world"
 
 
 
 class Vizual(object):
 
-    def datasetVisualization(data):
+    def datasetVisualization(data):                 # !
         #str = "Hello world"
         pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
         plt.show()
@@ -163,7 +188,7 @@ class Vizual(object):
 
 class Report(object):
 
-    def metadataReport(data):
+    def metadataReport(data):                 # !
         str = "Hello world"
 
 
@@ -173,11 +198,11 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-print(df)
+#print(df)
 
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-#print(ser)
+print(ser)
 
 
 print("--")
-print(Vizual.datasetVisualization(df))
+print(Cleaning.cleanSkipsSer(ser))
