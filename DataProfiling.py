@@ -87,7 +87,7 @@ class Cleaning(object):
 
         return resData
 
-    def cleanSkipsSer(col):                 # indexes !!
+    def cleanSkipsSer(col):
         resCol = col
         ind1 = 0
         ind2 = 0
@@ -167,9 +167,8 @@ class Statistics(object):
 
         return sum
 
-    def distributionFunc(data):             # !!!!!
-        str = "Hello world"
-        return str
+    def distributionFunc(col, cnt):
+        return col.groupby(col).size().nlargest(cnt)
 
     def frequencyFunc(data):                 # ?
         #ids = [0.0, 0.0, 0.0]
@@ -232,4 +231,4 @@ print(ser)
 
 
 print("--")
-print(Profiling.dataNormalization(ser))
+print(Statistics.distributionFunc(ser, 2))
