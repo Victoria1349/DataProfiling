@@ -29,8 +29,18 @@ class Profiling(object):
     def numbOfRepetitionsOfOneValueInColumn(data):
         return data.stack().value_counts()
 
-    def dataStandardization(col):                 # !
-        resCol = pd.Series()
+    def dataStandardization(col):                 # ?
+        resCol = Cleaning.cleanSkipsSer(col)
+
+        mean = Statistics.meanValue(resCol)
+        sumX = 0
+        for i in range (len(resCol)):
+            sumX = sumX + ((resCol[i] - mean) * (resCol[i] - mean))
+        standard_deviation = np.math.sqrt(sumX / len(resCol))
+
+        for i in range (len(resCol)):
+            resCol[i] = (resCol[i] - mean) / standard_deviation
+
         return resCol
 
     def dataNormalization(col):                 # ? indexes
@@ -149,11 +159,21 @@ class Cleaning(object):
 
 class Statistics(object):
 
-    def distributionFunc(data):                 # !
+    def sumSer(col):
+        sum = 0
+        resCol = Cleaning.cleanSkipsSer(col)
+
+        for i in range (len(resCol)):
+            sum = sum + resCol[i]
+
+        return sum
+
+
+    def distributionFunc(data):                 # !!!!!
         str = "Hello world"
         return str
 
-    def frequencyFunc(data):                 # !
+    def frequencyFunc(data):                 # !!!!!
         ids = [0.0, 0.0, 0.0]
         return ids
 
@@ -186,7 +206,7 @@ class Structures(object):
 
 class Vizual(object):
 
-    def datasetVisualization(data):                 # !
+    def datasetVisualization(data):                 # !!!!!
         #str = "Hello world"
         pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
         plt.show()
@@ -194,7 +214,7 @@ class Vizual(object):
 
 class Report(object):
 
-    def metadataReport(data):                 # !
+    def metadataReport(data):                 # !!!!!
         str = "Hello world"
 
 
@@ -211,4 +231,4 @@ print(ser)
 
 
 print("--")
-print(Profiling.dataNormalization(ser))
+print(Profiling.dataStandardization(ser))
