@@ -4,6 +4,7 @@ import numpy as np
 #import xray
 from io import StringIO
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -176,8 +177,11 @@ class Statistics(object):
         return str
 
     def frequencyFunc(data):                 # !!!!!
-        ids = [0.0, 0.0, 0.0]
-        return ids
+        #ids = [0.0, 0.0, 0.0]
+        plt.hist(data['percent'])
+        plt.show()
+        return sns.kdeplot(data['percent'])
+        #return ids
 
     def moda(col):
         return col.mode()
@@ -233,4 +237,4 @@ ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c']
 
 
 print("--")
-print(Cleaning.replacementMissings(df, 5))
+print(Statistics.frequencyFunc(df))
