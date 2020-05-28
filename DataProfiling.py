@@ -155,6 +155,9 @@ class Cleaning(object):
         df = data.drop(data.index[indexes])
         return df
 
+    def replacementMissings(data, cnt):
+        return data.fillna(cnt)
+
 
 
 class Statistics(object):
@@ -168,8 +171,7 @@ class Statistics(object):
 
         return sum
 
-
-    def distributionFunc(data):                 # !!!!!
+    def distributionFunc(data):             # !!!!!
         str = "Hello world"
         return str
 
@@ -224,11 +226,11 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-#print(df)
+print(df)
 
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-print(ser)
+#print(ser)
 
 
 print("--")
-print(Profiling.dataStandardization(ser))
+print(Cleaning.replacementMissings(df, 5))
