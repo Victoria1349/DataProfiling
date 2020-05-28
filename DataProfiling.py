@@ -90,15 +90,12 @@ class Cleaning(object):
         return resData
 
     def cleanSkipsSer(col):                 # ? indexes
-        resCol = pd.Series()
-        '''print(resCol.index[len(resCol)-1])
-        resCol.drop((resCol.index[len(resCol)-1]))'''
+        resCol = col
         ind1 = 0
         ind2 = 0
         for el in col:
-            if el == el:
-                #print(col[ind1])
-                resCol[ind1.__str__()] = col[ind1]
+            if el != el:
+                resCol = resCol.drop(labels=[col.index[ind1]])
                 ind2 = ind2 + 1
             ind1 = ind1 + 1
 
@@ -176,7 +173,7 @@ class Statistics(object):
         str = "Hello world"
         return str
 
-    def frequencyFunc(data):                 # !!!!!
+    def frequencyFunc(data):                 # ?
         #ids = [0.0, 0.0, 0.0]
         plt.hist(data['percent'])
         plt.show()
@@ -230,11 +227,11 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-print(df)
+#print(df)
 
-ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'a', 'b', 'c'])
-#print(ser)
+ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'd', 'e', 'f'])
+print(ser)
 
 
 print("--")
-print(Statistics.frequencyFunc(df))
+print(Cleaning.cleanSkipsSer(ser))
