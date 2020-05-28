@@ -33,13 +33,19 @@ class Profiling(object):
         resCol = pd.Series()
         return resCol
 
-    def dataNormalization(col):                 # !
-        resCol = pd.Series()
+    def dataNormalization(col):                 # ? indexes
+        resCol = col #Cleaning.cleanSkipsSer(col)
+        min = Statistics.minValue(resCol)
+        max = Statistics.maxValue(resCol)
+        i = 0
 
         for el in col:
             if el == el:
-                print(col.index(el))
-                #resCol[col[el]]
+                tmp = (el - min) / (max - min)
+                resCol[i] = tmp
+
+                #i = i + 1
+            i = i + 1
 
         return resCol
 
@@ -205,4 +211,4 @@ print(ser)
 
 
 print("--")
-print(Cleaning.cleanSkipsSer(ser))
+print(Profiling.dataNormalization(ser))
