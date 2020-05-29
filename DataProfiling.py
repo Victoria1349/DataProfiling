@@ -141,8 +141,8 @@ class Cleaning(object):
         #print()
 
         for i in range (n):
-            if(col2[i] < left or col2[i] > right):
-                ej[i.__str__()] = col2[i]
+            if(col[i] < left or col[i] > right):
+                ej[i.__str__()] = col[i]
 
         return ej
 
