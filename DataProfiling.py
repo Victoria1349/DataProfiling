@@ -146,9 +146,14 @@ class Cleaning(object):
 
         return ej
 
-    def cleanEjections(data):                 # !
-        resData = pd.DataFrame()
-        return resData
+    def cleanEjections(col):                 # !
+        delEl = Cleaning.findEjections(col)
+        resCol = col
+
+        for i in range (len(delEl)):
+            resCol = resCol.drop(labels=[int(delEl.index[i])])
+
+        return resCol
 
     def findNulls(data):
         rez = pd.Series()
@@ -276,4 +281,4 @@ print(ser)
 
 
 print("--")
-print(Cleaning.findEjections(ser))
+print(Cleaning.cleanEjections(ser))
