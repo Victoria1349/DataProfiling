@@ -99,9 +99,30 @@ class Cleaning(object):
 
         return resCol
 
-    def findEjections(data):                 # !
-        ids = [0, 0, 0]
-        return ids
+    def findEjections(col):
+        ej = pd.Series()
+        col2 = col.sort_values(ignore_index=True)
+
+        n = len(col2)+1
+        indQ1 = n/4 - 1
+        indQ3 = n*3/4 - 1
+        indIqr = indQ3 - indQ1 - 1
+
+        q1 = col2[indQ1]
+        q3 = col2[indQ3]
+        iqr = col2[indIqr]
+        print(q1, q3, iqr)
+
+        left = q1 - (iqr*1.5)
+        right = q3 + (iqr*1.5)
+        print(left, right)
+        print()
+
+        for i in range (n-1):
+            if(col2[i] < left or col2[i] > right):
+                ej[i.__str__()] = col2[i]
+
+        return ej
 
     def cleanEjections(data):                 # !
         resData = pd.DataFrame()
@@ -226,9 +247,10 @@ df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
-ser = pd.Series([np.nan, 20, 10, np.nan, 40, 10], ['a', 'b', 'c', 'd', 'e', 'f'])
+#ser = pd.Series([np.nan, 20, 10, 'np.nan', 40, 10], ['a', 'b', 'c', 'd', 'e', 'f'])
+ser = pd.Series([ 22, 24, 29, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 58, 62, 67, 81, 90])
 print(ser)
 
 
 print("--")
-print(Statistics.distributionFunc(ser, 2))
+print(Cleaning.findEjections(ser))
