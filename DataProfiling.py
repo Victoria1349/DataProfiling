@@ -5,6 +5,7 @@ import numpy as np
 from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
+import math
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -103,22 +104,43 @@ class Cleaning(object):
         ej = pd.Series()
         col2 = col.sort_values(ignore_index=True)
 
-        n = len(col2)+1
-        indQ1 = n/4 - 1
-        indQ3 = n*3/4 - 1
-        indIqr = indQ3 - indQ1 - 1
+        n = len(col2)
+        indQ1 = (n+1)/4
+        indQ3 = (n+1)*3/4
+        #indIqr = indQ3 - indQ1
 
-        q1 = col2[indQ1]
-        q3 = col2[indQ3]
-        iqr = col2[indIqr]
-        print(q1, q3, iqr)
+        if(indQ1 % 1 != 0):
+            #print(indQ1)
+            ind1 = math.floor(indQ1)
+            ind2 = math.ceil(indQ1)
+            #print(ind1-1, ind2-1)
+            #print()
+            q1 = (col2[ind1-1] + col2[ind2-1]) / 2
 
-        left = q1 - (iqr*1.5)
-        right = q3 + (iqr*1.5)
-        print(left, right)
-        print()
+        else:
+            q1 = col2[indQ1 - 1]
 
-        for i in range (n-1):
+        if (indQ3 % 1 != 0):
+            #print(indQ3)
+            ind1 = math.floor(indQ3)
+            ind2 = math.ceil(indQ3)
+            #print(ind1-1, ind2-1)
+            #print()
+            q3 = (col2[ind1-1] + col2[ind2-1]) / 2
+
+        else:
+            q3 = col2[indQ3 - 1]
+
+        #iqr = col2[indIqr - 1]
+        iqr = q3 - q1
+        #print(q1, q3, iqr)
+
+        left = q1 - iqr*1.5
+        right = q3 + iqr*1.5
+        #print(left, right)
+        #print()
+
+        for i in range (n):
             if(col2[i] < left or col2[i] > right):
                 ej[i.__str__()] = col2[i]
 
@@ -248,7 +270,8 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 'np.nan', 40, 10], ['a', 'b', 'c', 'd', 'e', 'f'])
-ser = pd.Series([ 22, 24, 29, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 58, 62, 67, 81, 90])
+ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
+#ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
 print(ser)
 
 
