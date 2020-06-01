@@ -48,7 +48,7 @@ class DataProfiling(object):
             return
 
         # count of nulls
-        cntNulls = len(DataProfiling.findNullsInCol(col))
+        cntNulls = len(DataProfiling.findNullsSer(col))
         if cnt == cntNulls:
             print("All column is nulls!")
             return
@@ -109,14 +109,17 @@ class DataProfiling(object):
     def findNullsSer(col):
         return Cleaning.findNullsSer(col)
 
+    def cleanNullsSer(col):
+        return Cleaning.cleanNullsSer(col)
+
     def cntOfSkipDataInDF(data):
         return Cleaning.cntOfSkipDataInDF(data)
 
-    def findMissingData(data):                 # !
-        return Cleaning.findMissingData(data)
-
     def cntOfSkipDataInColumn(col):
         return Cleaning.cntOfSkipDataInColumn(col)
+
+    def findMissingData(data):                 # !
+        return Cleaning.findMissingData(data)
 
     def delDuplicates(data):
         return Cleaning.delDuplicates(data)
@@ -349,18 +352,22 @@ class Cleaning(object):
 
         for i in range (cnt):
             if col[i] == 0:
-                ids.append(i)
+                ids.append(col.index[i])
 
         return ids
+
+    def cleanNullsSer(col):
+        delEl = Cleaning.findNullsSer(col)
+        resCol = col
+
+        resCol = resCol.drop(labels=delEl)
+
+        return resCol
 
     def cntOfSkipDataInDF(data):
         df = Cleaning.findSkips(data)
         numb = len(df)
         return numb
-
-    def findMissingData(data):                 # !
-        ids = [0,0,0]
-        return ids
 
     def cntOfSkipDataInColumn(col):
         cnt = 0
@@ -368,6 +375,10 @@ class Cleaning(object):
             if el != el:
                 cnt = cnt + 1
         return cnt
+
+    def findMissingData(data):                 # !
+        ids = [0,0,0]
+        return ids
 
     def delDuplicates(data):
         tmp = pd.Series()
@@ -455,7 +466,7 @@ df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
-ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f'])
+ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
 print(ser)
@@ -467,4 +478,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 #print("--")
 
-#print(DataProfiling.maxValue(DP.ser))
+print(DataProfiling.cleanNullsSer(DP.ser))
