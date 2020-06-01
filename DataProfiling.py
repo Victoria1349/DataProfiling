@@ -190,10 +190,11 @@ class Profiling(object):
     def isInd(col, ind):
         cnt = len(col)
         for i in range (cnt):
-            if col.index[i] == ind:
+            print(col.index[i], ind)
+            if object.__eq__(col.index[i], ind):
                 return True
         return False
-    
+
 
     def dataType(col):
         return col.dtypes
@@ -202,19 +203,33 @@ class Profiling(object):
         str = "Hello world"
         return str
 
-    def findMistakes(col):      !           # !!!!
+    def findMistakes(col):                 # !!!!
         resCol = pd.Series()
         types = pd.Series()
 
         type = Profiling.dataType(col)
-        print(type)
+        #print(type)
 
         if type == object:
             #print('OH NO')
             for el in col:
                 tmpType = Profiling.elType(el)
-                print(el, tmpType)
-                types[str(tmpType)] = el
+                print(tmpType)
+                print(Profiling.isInd(types, tmpType))
+
+                if len(types) == 0:
+                    print("i'm zero")
+                    types[str(tmpType)] = 1
+                    print(types)
+                    print()
+
+                elif Profiling.isInd(types, tmpType) == True:
+                    print("i'm true")
+                    types[str(tmpType)] = types[str(tmpType)] + 1
+
+                else:
+                    print("i'm false")
+                    types[str(tmpType)] = 1
 
         print('--')
         print(types)
@@ -496,13 +511,21 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+ser = pd.Series([-200, 0, 24.0, 'np.nan', 150, '62'], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
-print(ser)
+#print(ser)
 
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.findMistakes(DP.ser))
+#print(DataProfiling.findMistakes(DP.ser))
+
+ser = pd.Series()
+tmpType = Profiling.elType(10)
+print(tmpType)
+ser[str(tmpType)] = 1
+print(ser)
+print(Profiling.isInd(ser, tmpType))
