@@ -17,10 +17,12 @@ class DataProfiling(object):
     def __setDF__(self, dt):
         """setter"""
         self.data = dt
+        # проверить на пустоту, нулевые значения            !!!
 
     def __setSeries__(self, col):
         """setter"""
         self.ser = col
+        # проверить на пустоту, нулевые значения            !!!
 
 
 
@@ -28,6 +30,7 @@ class DataProfiling(object):
         return Profiling.dataType(col)
 
     def funcType(func):                 # !
+        # проверить на пустую строку
         return Profiling.funcType(func)
 
     def findMistakes(data):                 # !
@@ -37,7 +40,7 @@ class DataProfiling(object):
         return Profiling.cntOfOneValueInColumn(data)
 
     def dataStandardization(col):                 # ?
-        resCol = Cleaning.cleanSkipsSer(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
         return Profiling.dataStandardization(resCol)
 
     def dataNormalization(col):
@@ -57,7 +60,7 @@ class DataProfiling(object):
     def findEjections(col):
         return Cleaning.findEjections(col)
 
-    def cleanEjections(col):                 # !
+    def cleanEjections(col):
         return Cleaning.cleanEjections(col)
 
     def findNulls(data):
@@ -81,7 +84,7 @@ class DataProfiling(object):
 
 
     def sumSer(col):
-        resCol = Cleaning.cleanSkipsSer(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
         return Statistics.sumSer(resCol)
 
     def distributionFunc(col, cnt):
@@ -90,20 +93,25 @@ class DataProfiling(object):
     def frequencyFunc(data):                 # ?
         return Statistics.frequencyFunc(data)
 
-    def moda(col):                                  # где-то здесь надо чистить НАНы?
-        return Statistics.moda(col)
+    def moda(col):
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Statistics.moda(resCol)
 
     def maxValue(col):
-        return Statistics.maxValue(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Statistics.maxValue(resCol)
 
     def minValue(col):
-        return Statistics.minValue(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Statistics.minValue(resCol)
 
     def meanValue(col):
-        return Statistics.meanValue(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Statistics.meanValue(resCol)
 
     def median(col):
-        return Statistics.median(col)
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Statistics.median(resCol)
 
 
 
@@ -256,7 +264,7 @@ class Cleaning(object):
 
         return ej
 
-    def cleanEjections(col):                 # !
+    def cleanEjections(col):
         delEl = Cleaning.findEjections(col)
         resCol = col
 
@@ -383,15 +391,18 @@ df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
-#ser = pd.Series([np.nan, 20, 10, 'np.nan', 40, 10], ['a', 'b', 'c', 'd', 'e', 'f'])
-ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
+ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f'])
+#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
 print(ser)
 
 
 print("--")
-#print(Cleaning.cleanEjections(ser))
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
-print(DP.data)
+#print(DP.data)
+#print(DP.ser)
+#print("--")
+
+print(DataProfiling.maxValue(DP.ser))
