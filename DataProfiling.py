@@ -317,7 +317,7 @@ class Cleaning(object):
 
         for i in range (n):
             if(col[i] < left or col[i] > right):
-                ej[i.__str__()] = col[i]
+                ej[col.index[i].__str__()] = col[i]
 
         return ej
 
@@ -326,7 +326,7 @@ class Cleaning(object):
         resCol = col
 
         for i in range (len(delEl)):
-            resCol = resCol.drop(labels=[int(delEl.index[i])])
+            resCol = resCol.drop(labels=delEl)
 
         return resCol
 
@@ -467,8 +467,8 @@ df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
-ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
+#ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
+ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
 print(ser)
 
@@ -479,4 +479,5 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 #print("--")
 
-print(DataProfiling.cleanNullsSer(DP.ser))
+#print(DataProfiling.cleanEjections(DP.ser))
+print(DataProfiling.findEjections(DP.ser))
