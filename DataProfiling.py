@@ -9,10 +9,18 @@ import math
 
 class DataProfiling(object):
     data = pd.DataFrame()
+    ser = pd.Series()
 
-    def __init__(self, dt):
+    def __init__(self):
         """Constructor"""
-        data = dt
+
+    def __setDF__(self, dt):
+        """setter"""
+        self.data = dt
+
+    def __setSeries__(self, col):
+        """setter"""
+        self.ser = col
 
 
 class Profiling(object):
@@ -281,4 +289,8 @@ print(ser)
 
 
 print("--")
-print(Cleaning.cleanEjections(ser))
+#print(Cleaning.cleanEjections(ser))
+DP = DataProfiling()
+DP.__setDF__(df)
+DP.__setSeries__(ser)
+print(DP.data)
