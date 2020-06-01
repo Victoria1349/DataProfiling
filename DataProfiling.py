@@ -70,8 +70,9 @@ class DataProfiling(object):
         # проверить на пустую строку
         return Profiling.funcType(func)
 
-    def findMistakes(data):                 # !
-        return Profiling.findMistakes(data)
+    def findMistakes(col):                 # !!!!
+        resCol = DataProfiling.cleanSkipsSer(col)
+        return Profiling.findMistakes(resCol)
 
     def cntOfOneValueInColumn(data):
         return Profiling.cntOfOneValueInColumn(data)
@@ -183,6 +184,17 @@ class DataProfiling(object):
 
 class Profiling(object):
 
+    def elType(el):
+        return type(el)
+
+    def isInd(col, ind):
+        cnt = len(col)
+        for i in range (cnt):
+            if col.index[i] == ind:
+                return True
+        return False
+    
+
     def dataType(col):
         return col.dtypes
 
@@ -190,9 +202,24 @@ class Profiling(object):
         str = "Hello world"
         return str
 
-    def findMistakes(data):                 # !
-        resData = pd.DataFrame()
-        return resData
+    def findMistakes(col):      !           # !!!!
+        resCol = pd.Series()
+        types = pd.Series()
+
+        type = Profiling.dataType(col)
+        print(type)
+
+        if type == object:
+            #print('OH NO')
+            for el in col:
+                tmpType = Profiling.elType(el)
+                print(el, tmpType)
+                types[str(tmpType)] = el
+
+        print('--')
+        print(types)
+
+        return resCol
 
     def cntOfOneValueInColumn(data):
         return data.stack().value_counts()
@@ -469,15 +496,13 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 #print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
 print(ser)
 
-
-print("--")
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
-#print("--")
+print("--")
 
-print(DataProfiling.cleanEjections(DP.ser))
+print(DataProfiling.findMistakes(DP.ser))
