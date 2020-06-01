@@ -16,13 +16,34 @@ class DataProfiling(object):
 
     def __setDF__(self, dt):
         """setter"""
+
+        cnt = len(dt)                       # !!!!!!!!!!!!!!!!
+        if cnt == 0:
+            print("Data is empty!")
+            return
+
+        cntNulls = len(DataProfiling.findNulls(df))
+        if cnt == cntNulls:
+            print("All data is nulls!")
+            return
+
+        cntNans = len(DataProfiling.findSkips(df))
+
+        print(cnt, cntNulls)
+        print(DataProfiling.findNulls(df))
+        #print(len(df.index), len(df[0]))
+
+        if cnt == cntNans:
+            print("All data is nans!")
+            return
+
         self.data = dt
-        # проверить на пустоту, нулевые значения            !!!
 
     def __setSeries__(self, col):
         """setter"""
         self.ser = col
         # проверить на пустоту, нулевые значения            !!!
+
 
 
 
@@ -276,16 +297,17 @@ class Cleaning(object):
     def findNulls(data):
         rez = pd.Series()
         id = 0
-        str = 0
+        row = 0
+
         for col in data:
             for el in data[col]:
                 if Cleaning.isNull(el):
-                    d = {col: str}
+                    d = {col: row}
                     rez[id.__str__()] = d
-                str = str + 1
-                if str > 3:
-                    str = str - 4
-            id = id + 1
+                row = row + 1
+                if row > len(data.index)-1:
+                    row = 0
+                id = id + 1
 
         return rez
 
@@ -389,20 +411,24 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-#print(df)
+
+data = 'price,count\n0,0\n0,0\n0,0'
+df = pd.read_csv(StringIO(data))
+print(df)
 
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
-print(ser)
+#print(ser)
 
 
 print("--")
 DP = DataProfiling()
 DP.__setDF__(df)
+print(DP.data)
 DP.__setSeries__(ser)
 #print(DP.data)
 #print(DP.ser)
 #print("--")
 
-print(DataProfiling.maxValue(DP.ser))
+#print(DataProfiling.maxValue(DP.ser))
