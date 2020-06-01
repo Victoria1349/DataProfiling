@@ -23,6 +23,108 @@ class DataProfiling(object):
         self.ser = col
 
 
+
+    def dataType(col):
+        return Profiling.dataType(col)
+
+    def funcType(func):                 # !
+        return Profiling.funcType(func)
+
+    def findMistakes(data):                 # !
+        return Profiling.findMistakes(data)
+
+    def cntOfOneValueInColumn(data):
+        return Profiling.cntOfOneValueInColumn(data)
+
+    def dataStandardization(col):                 # ?
+        return Profiling.dataStandardization(col)
+
+    def dataNormalization(col):
+        return Profiling.dataNormalization(col)
+
+
+
+    def findSkips(data):
+        return Cleaning.findSkips(data)
+
+    def cleanSkipsDF(data):
+        return Cleaning.cleanSkipsDF(data)
+
+    def cleanSkipsSer(col):
+        return Cleaning.cleanSkipsSer(col)
+
+    def findEjections(col):
+        return Cleaning.findEjections(col)
+
+    def cleanEjections(col):                 # !
+        return Cleaning.cleanEjections(col)
+
+    def findNulls(data):
+        return Cleaning.findNulls(data)
+
+    def cntOfSkips(data):
+        return Cleaning.cntOfSkips(data)
+
+    def findMissingData(data):                 # !
+        return Cleaning.findMissingData(data)
+
+    def cntOfSkipDataInColumn(col):
+        return Cleaning.cntOfSkipDataInColumn(col)
+
+    def delDuplicates(data):
+        return Cleaning.delDuplicates(data)
+
+    def replacementMissings(data, cnt):
+        return Cleaning.replacementMissings(data, cnt)
+
+
+
+    def sumSer(col):
+        return Statistics.sumSer(col)
+
+    def distributionFunc(col, cnt):
+        return Statistics.distributionFunc(col, cnt)
+
+    def frequencyFunc(data):                 # ?
+        return Statistics.frequencyFunc(data)
+
+    def moda(col):                                  # где-то здесь надо чистить НАНы?
+        return Statistics.moda(col)
+
+    def maxValue(col):
+        return Statistics.maxValue(col)
+
+    def minValue(col):
+        return Statistics.minValue(col)
+
+    def meanValue(col):
+        return Statistics.meanValue(col)
+
+    def median(col):
+        return Statistics.median(col)
+
+
+
+    def structureDetection(data):                 # !
+        return Structures.structureDetection(data)         # return?
+
+    def relationsDetection(data):                 # !
+        return Structures.relationsDetection(data)         # return?
+
+
+
+    def datasetVisualization(data):                 # !!!!!
+        return Vizual.datasetVisualization(data)         # return?
+
+
+
+    def metadataReport(data):                 # !!!!!
+        return Report.metadataReport(data)         # return?
+
+
+    # ----------------------------------------------------------------------------------------
+
+
 class Profiling(object):
 
     def dataType(col):
@@ -36,7 +138,7 @@ class Profiling(object):
         resData = pd.DataFrame()
         return resData
 
-    def numbOfRepetitionsOfOneValueInColumn(data):
+    def cntOfOneValueInColumn(data):
         return data.stack().value_counts()
 
     def dataStandardization(col):                 # ?
