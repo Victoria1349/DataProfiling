@@ -257,6 +257,7 @@ class Cleaning(object):
 
     def cleanSkipsDF(data):
         resData = data
+
         for col in data:
             resData = resData.dropna(axis='index', how='any', subset=[col])
 
@@ -351,7 +352,7 @@ class Cleaning(object):
         cnt = len(col)
 
         for i in range (cnt):
-            if col[i] == 0:
+            if Cleaning.isNull(col[i]):
                 ids.append(col.index[i])
 
         return ids
