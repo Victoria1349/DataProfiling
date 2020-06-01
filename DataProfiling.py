@@ -17,22 +17,20 @@ class DataProfiling(object):
     def __setDF__(self, dt):
         """setter"""
 
-        cnt = len(dt)                       # !!!!!!!!!!!!!!!!
+        # size of matrix
+        cnt = df.shape[0] * df.shape[1]
         if cnt == 0:
             print("Data is empty!")
             return
 
+        # count of nulls
         cntNulls = len(DataProfiling.findNulls(df))
         if cnt == cntNulls:
             print("All data is nulls!")
             return
 
+        # count of nans
         cntNans = len(DataProfiling.findSkips(df))
-
-        print(cnt, cntNulls)
-        print(DataProfiling.findNulls(df))
-        #print(len(df.index), len(df[0]))
-
         if cnt == cntNans:
             print("All data is nans!")
             return
@@ -411,10 +409,7 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-
-data = 'price,count\n0,0\n0,0\n0,0'
-df = pd.read_csv(StringIO(data))
-print(df)
+#print(df)
 
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
@@ -425,10 +420,8 @@ ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f']
 print("--")
 DP = DataProfiling()
 DP.__setDF__(df)
-print(DP.data)
 DP.__setSeries__(ser)
-#print(DP.data)
-#print(DP.ser)
+print(DP.ser)
 #print("--")
 
 #print(DataProfiling.maxValue(DP.ser))
