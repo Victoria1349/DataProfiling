@@ -88,8 +88,8 @@ class DataProfiling(object):
     def findSkipsDF(data):
         return Cleaning.findSkipsDF(data)
 
-    def findSkipsInCol(col):
-        return Cleaning.findSkipsInCol(col)
+    def findSkipsSer(col):
+        return Cleaning.findSkipsSer(col)
 
     def cleanSkipsDF(data):
         return Cleaning.cleanSkipsDF(data)
@@ -106,8 +106,8 @@ class DataProfiling(object):
     def findNullsDF(data):
         return Cleaning.findNullsDF(data)
 
-    def findNullsInCol(col):
-        return Cleaning.findNullsInCol(col)
+    def findNullsSer(col):
+        return Cleaning.findNullsSer(col)
 
     def cntOfSkipDataInDF(data):
         return Cleaning.cntOfSkipDataInDF(data)
@@ -242,7 +242,7 @@ class Cleaning(object):
 
         return rez
 
-    def findSkipsInCol(col):
+    def findSkipsSer(col):
         ids = []
         cnt = len(col)
 
@@ -343,7 +343,7 @@ class Cleaning(object):
 
         return rez
 
-    def findNullsInCol(col):
+    def findNullsSer(col):
         ids = []
         cnt = len(col)
 
