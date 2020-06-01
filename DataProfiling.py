@@ -192,7 +192,7 @@ class Profiling(object):
         for i in range (cnt):
             #print(str(col.index[i]), str(ind), str(col.index[i]) == str(ind))
 
-            if col.index[i] == ind:
+            if str(col.index[i]) == str(ind):
                 return True
         return False
 
@@ -525,9 +525,9 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-#print(DataProfiling.findMistakes(DP.ser))
+print(DataProfiling.findMistakes(DP.ser))
 
-ser = pd.Series()
+'''ser = pd.Series()
 tmpType = Profiling.elType(10)
 print(tmpType)
 ser[str(tmpType)] = 1
@@ -537,3 +537,7 @@ print(Profiling.isInd(ser, tmpType))
 tmpType = Profiling.elType(20.0)
 print(tmpType)
 print(Profiling.isInd(ser, tmpType))
+
+tmpType = Profiling.elType(30)
+print(tmpType)
+print(Profiling.isInd(ser, tmpType))'''
