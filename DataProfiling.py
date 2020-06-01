@@ -190,8 +190,9 @@ class Profiling(object):
     def isInd(col, ind):
         cnt = len(col)
         for i in range (cnt):
-            print(col.index[i], ind)
-            if object.__eq__(col.index[i], ind):
+            #print(str(col.index[i]), str(ind), str(col.index[i]) == str(ind))
+
+            if col.index[i] == ind:
                 return True
         return False
 
@@ -224,12 +225,15 @@ class Profiling(object):
                     print()
 
                 elif Profiling.isInd(types, tmpType) == True:
-                    print("i'm true")
+                    print("i'm true", types[str(tmpType)])
                     types[str(tmpType)] = types[str(tmpType)] + 1
+                    print(types)
+                    print()
 
                 else:
                     print("i'm false")
                     types[str(tmpType)] = 1
+                    print()
 
         print('--')
         print(types)
@@ -528,4 +532,8 @@ tmpType = Profiling.elType(10)
 print(tmpType)
 ser[str(tmpType)] = 1
 print(ser)
+print(Profiling.isInd(ser, tmpType))
+
+tmpType = Profiling.elType(20.0)
+print(tmpType)
 print(Profiling.isInd(ser, tmpType))
