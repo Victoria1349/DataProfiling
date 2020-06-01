@@ -24,13 +24,13 @@ class DataProfiling(object):
             return
 
         # count of nulls
-        cntNulls = len(DataProfiling.findNulls(df))
+        cntNulls = len(DataProfiling.findNullsDF(df))
         if cnt == cntNulls:
             print("All data is nulls!")
             return
 
         # count of nans
-        cntNans = len(DataProfiling.findSkips(df))
+        cntNans = len(DataProfiling.findSkipsDF(df))
         if cnt == cntNans:
             print("All data is nans!")
             return
@@ -39,8 +39,26 @@ class DataProfiling(object):
 
     def __setSeries__(self, col):
         """setter"""
+
+        # size of array
+        cnt = len(col)
+        if cnt == 0:
+            print("Column is empty!")
+            return
+
+        # count of nulls
+        cntNulls = len(DataProfiling.findNullsInCol(col))
+        if cnt == cntNulls:
+            print("All column is nulls!")
+            return
+
+        # count of nans
+        cntNans = DataProfiling.cntOfSkipDataInColumn(col)
+        if cnt == cntNans:
+            print("All column is nans!")
+            return
+
         self.ser = col
-        # проверить на пустоту, нулевые значения            !!!
 
 
 
@@ -67,8 +85,8 @@ class DataProfiling(object):
 
 
 
-    def findSkips(data):
-        return Cleaning.findSkips(data)
+    def findSkipsDF(data):
+        return Cleaning.findSkipsDF(data)
 
     def cleanSkipsDF(data):
         return Cleaning.cleanSkipsDF(data)
@@ -82,11 +100,14 @@ class DataProfiling(object):
     def cleanEjections(col):
         return Cleaning.cleanEjections(col)
 
-    def findNulls(data):
-        return Cleaning.findNulls(data)
+    def findNullsDF(data):
+        return Cleaning.findNullsDF(data)
 
-    def cntOfSkips(data):
-        return Cleaning.cntOfSkips(data)
+    def findNullsInCol(col):
+        return Cleaning.findNullsInCol(col)
+
+    def cntOfSkipDataInDF(data):
+        return Cleaning.cntOfSkipDataInDF(data)
 
     def findMissingData(data):                 # !
         return Cleaning.findMissingData(data)
@@ -202,7 +223,7 @@ class Cleaning(object):
     def isNull(cnt):
         return cnt == 0
 
-    def findSkips(data):
+    def findSkipsDF(data):
         rez = pd.Series()
         id = 0
 
@@ -292,7 +313,7 @@ class Cleaning(object):
 
         return resCol
 
-    def findNulls(data):
+    def findNullsDF(data):
         rez = pd.Series()
         id = 0
         row = 0
@@ -309,7 +330,17 @@ class Cleaning(object):
 
         return rez
 
-    def cntOfSkips(data):
+    def findNullsInCol(col):
+        ids = []
+        cnt = len(col)
+
+        for i in range (cnt):
+            if col[i] == 0:
+                ids.append(i)
+
+        return ids
+
+    def cntOfSkipDataInDF(data):
         df = Cleaning.findSkips(data)
         numb = len(df)
         return numb
@@ -414,7 +445,7 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 ser = pd.Series([np.nan, 20, 10, np.nan, 40, 15], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 34, 24, 43, 44, 43, 57, 88, 150, 62, 67, 81])
 #ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
-#print(ser)
+print(ser)
 
 
 print("--")
