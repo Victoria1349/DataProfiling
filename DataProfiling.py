@@ -37,7 +37,8 @@ class DataProfiling(object):
         return Profiling.cntOfOneValueInColumn(data)
 
     def dataStandardization(col):                 # ?
-        return Profiling.dataStandardization(col)
+        resCol = Cleaning.cleanSkipsSer(col)
+        return Profiling.dataStandardization(resCol)
 
     def dataNormalization(col):
         return Profiling.dataNormalization(col)
@@ -80,7 +81,8 @@ class DataProfiling(object):
 
 
     def sumSer(col):
-        return Statistics.sumSer(col)
+        resCol = Cleaning.cleanSkipsSer(col)
+        return Statistics.sumSer(resCol)
 
     def distributionFunc(col, cnt):
         return Statistics.distributionFunc(col, cnt)
@@ -122,7 +124,7 @@ class DataProfiling(object):
         return Report.metadataReport(data)         # return?
 
 
-    # ----------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
 
 
 class Profiling(object):
@@ -142,18 +144,16 @@ class Profiling(object):
         return data.stack().value_counts()
 
     def dataStandardization(col):                 # ?
-        resCol = Cleaning.cleanSkipsSer(col)
-
-        mean = Statistics.meanValue(resCol)
+        mean = Statistics.meanValue(col)
         sumX = 0
-        for i in range (len(resCol)):
-            sumX = sumX + ((resCol[i] - mean) * (resCol[i] - mean))
-        standard_deviation = np.math.sqrt(sumX / len(resCol))
+        for i in range (len(col)):
+            sumX = sumX + ((col[i] - mean) * (col[i] - mean))
+        standard_deviation = np.math.sqrt(sumX / len(col))
 
-        for i in range (len(resCol)):
-            resCol[i] = (resCol[i] - mean) / standard_deviation
+        for i in range (len(col)):
+            col[i] = (col[i] - mean) / standard_deviation
 
-        return resCol
+        return col
 
     def dataNormalization(col):
         resCol = col
@@ -318,10 +318,9 @@ class Statistics(object):
 
     def sumSer(col):
         sum = 0
-        resCol = Cleaning.cleanSkipsSer(col)
 
-        for i in range (len(resCol)):
-            sum = sum + resCol[i]
+        for i in range (len(col)):
+            sum = sum + col[i]
 
         return sum
 
