@@ -204,39 +204,50 @@ class Profiling(object):
         str = "Hello world"
         return str
 
-    def findMistakes(col):                 # !!!!
+    def findMistakes(col):
         resCol = pd.Series()
-        types = pd.Series()
-
         type = Profiling.dataType(col)
-        #print(type)
 
         if type == object:
-            #print('OH NO')
+            types = pd.Series()
+
+            # counts of each type in column:
             for el in col:
                 tmpType = Profiling.elType(el)
-                print(tmpType)
-                print(Profiling.isInd(types, tmpType))
 
                 if len(types) == 0:
-                    print("i'm zero")
                     types[str(tmpType)] = 1
-                    print(types)
-                    print()
 
                 elif Profiling.isInd(types, tmpType) == True:
-                    print("i'm true", types[str(tmpType)])
                     types[str(tmpType)] = types[str(tmpType)] + 1
-                    print(types)
-                    print()
 
                 else:
-                    print("i'm false")
                     types[str(tmpType)] = 1
-                    print()
 
-        print('--')
-        print(types)
+            max = Statistics.maxValue(types)
+
+            # find index of our max type and max type itself
+            indMax = 0
+            cntMax = 0
+            for i in range (len(types)):
+                if types.values[i] == max:
+                    indMax = i
+                    cntMax = cntMax + 1
+
+            if cntMax > 1:
+                print("There are", cntMax, "peer values")
+                return
+
+            maxType = types.index[indMax]
+
+            # find indexes of mistakes values
+            i = 0
+            for el in col:
+                tmpType = Profiling.elType(el)
+
+                if str(tmpType) != str(maxType):    # if that element not good
+                    resCol[str(col.index[i])] = el
+                i = i + 1
 
         return resCol
 
@@ -516,9 +527,9 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-ser = pd.Series([-200, 0, 24.0, 'np.nan', 150, '62'], ['a', 'b', 'c', 'd', 'e', 'f'])
-#ser = pd.Series([7,8,9,10,10,10,11,12,13,14])
-#print(ser)
+ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, '62', 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+#ser = pd.Series([7,8,9,12,13,14])
+print(ser)
 
 DP = DataProfiling()
 DP.__setDF__(df)
@@ -526,18 +537,3 @@ DP.__setSeries__(ser)
 print("--")
 
 print(DataProfiling.findMistakes(DP.ser))
-
-'''ser = pd.Series()
-tmpType = Profiling.elType(10)
-print(tmpType)
-ser[str(tmpType)] = 1
-print(ser)
-print(Profiling.isInd(ser, tmpType))
-
-tmpType = Profiling.elType(20.0)
-print(tmpType)
-print(Profiling.isInd(ser, tmpType))
-
-tmpType = Profiling.elType(30)
-print(tmpType)
-print(Profiling.isInd(ser, tmpType))'''
