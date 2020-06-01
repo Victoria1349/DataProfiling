@@ -37,6 +37,7 @@ class DataProfiling(object):
 
         self.data = dt
 
+
     def __setSeries__(self, col):
         """setter"""
 
@@ -59,7 +60,6 @@ class DataProfiling(object):
             return
 
         self.ser = col
-
 
 
 
@@ -87,6 +87,9 @@ class DataProfiling(object):
 
     def findSkipsDF(data):
         return Cleaning.findSkipsDF(data)
+
+    def findSkipsInCol(col):
+        return Cleaning.findSkipsInCol(col)
 
     def cleanSkipsDF(data):
         return Cleaning.cleanSkipsDF(data)
@@ -238,6 +241,16 @@ class Cleaning(object):
                 id = id + 1
 
         return rez
+
+    def findSkipsInCol(col):
+        ids = []
+        cnt = len(col)
+
+        for i in range(cnt):
+            if col[i] != col[i]:
+                ids.append(i)
+
+        return ids
 
     def cleanSkipsDF(data):
         resData = data
@@ -452,7 +465,6 @@ print("--")
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
-print(DP.ser)
 #print("--")
 
 #print(DataProfiling.maxValue(DP.ser))
