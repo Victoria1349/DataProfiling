@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import math
 import unittest
-import DataProfiling
+from DataProfiling import DataProfiling
 
 
 
