@@ -18,19 +18,19 @@ class DataProfiling(object):
         """setter"""
 
         # size of matrix
-        cnt = df.shape[0] * df.shape[1]
+        cnt = dt.shape[0] * dt.shape[1]
         if cnt == 0:
             print("Data is empty!")
             return
 
         # count of nulls
-        cntNulls = len(DataProfiling.findNullsDF(df))
+        cntNulls = len(DataProfiling.findNullsDF(dt))
         if cnt == cntNulls:
             print("All data is nulls!")
             return
 
         # count of nans
-        cntNans = len(DataProfiling.findSkipsDF(df))
+        cntNans = len(DataProfiling.findSkipsDF(dt))
         if cnt == cntNans:
             print("All data is nans!")
             return
@@ -293,8 +293,8 @@ class Cleaning(object):
         id = 0
 
         for col in data:
-            index = df[col].index[df[col].apply(np.isnan)]
-            df_index = df.index.values.tolist()
+            index = data[col].index[data[col].apply(np.isnan)]
+            df_index = data.index.values.tolist()
             for i in index:
                 ind = df_index.index(i)
                 # добавить данные в Series
