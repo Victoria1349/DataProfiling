@@ -6,7 +6,6 @@ from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
-import unittest
 
 class DataProfiling(object):
     data = pd.DataFrame()
