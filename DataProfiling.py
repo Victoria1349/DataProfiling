@@ -36,6 +36,7 @@ class DataProfiling(object):
             return
 
         self.data = dt
+        return self.data
 
 
     def __setSeries__(self, col):
@@ -60,6 +61,7 @@ class DataProfiling(object):
             return
 
         self.ser = col
+        return self.ser
 
 
 
@@ -70,7 +72,7 @@ class DataProfiling(object):
         # проверить на пустую строку
         return Profiling.funcType(func)
 
-    def findMistakes(col):                 # !!!!
+    def findMistakes(col):
         resCol = DataProfiling.cleanSkipsSer(col)
         return Profiling.findMistakes(resCol)
 
@@ -162,10 +164,10 @@ class DataProfiling(object):
 
 
 
-    def structureDetection(data):                 # !
+    def structureDetection(data):                 # !!!!
         return Structures.structureDetection(data)         # return?
 
-    def relationsDetection(data):                 # !
+    def relationsDetection(data):                 # !!!!
         return Structures.relationsDetection(data)         # return?
 
 
@@ -495,10 +497,10 @@ class Statistics(object):
 
 class Structures(object):
 
-    def structureDetection(data):                 # !
+    def structureDetection(data):                 # !!!!
         str = "Hello world"
 
-    def relationsDetection(data):                 # !
+    def relationsDetection(data):                 # !!!!
         str = "Hello world"
 
 
@@ -519,7 +521,7 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
+'''data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
@@ -536,4 +538,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.findMistakes(DP.ser))
+print(DataProfiling.findMistakes(DP.ser))'''
