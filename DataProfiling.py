@@ -522,7 +522,7 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-'''data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
+data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
@@ -539,6 +539,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.findMistakes(DP.ser))'''
-
-
+print(DataProfiling.findMistakes(DP.ser))

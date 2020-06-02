@@ -16,9 +16,6 @@ class maxValueTests(unittest.TestCase):
     def test_correct(self):
         ser = pd.Series([-200, 0, 24, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 
-        #DP = DataProfiling()
-        #DP.__setSeries__(ser)
-
         result = DataProfiling.maxValue(ser)
         self.assertEqual(result, 150)
 
