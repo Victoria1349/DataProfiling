@@ -6,6 +6,7 @@ from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+import unittest
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -539,3 +540,5 @@ DP.__setSeries__(ser)
 print("--")
 
 print(DataProfiling.findMistakes(DP.ser))'''
+
+
