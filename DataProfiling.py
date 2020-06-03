@@ -121,7 +121,7 @@ class DataProfiling(object):
     def cntOfSkipDataInColumn(col):
         return Cleaning.cntOfSkipDataInColumn(col)
 
-    def findMissingData(data):                 # !
+    def findMissingData(data):
         return Cleaning.findMissingData(data)
 
     def delDuplicates(data):
@@ -437,9 +437,18 @@ class Cleaning(object):
                 cnt = cnt + 1
         return cnt
 
-    def findMissingData(data):                 # !
-        ids = [0,0,0]
-        return ids
+    def findMissingData(data):
+        resData = data
+        nans = Cleaning.findSkipsDF(resData)
+
+        for i in range (len(nans)):
+            col = list(nans[i].keys())[0]
+            row = list(nans[i].values())[0]
+
+            ser = resData[col]
+            ser.values[row] = Statistics.meanValue(ser)
+
+        return resData
 
     def delDuplicates(data):
         tmp = pd.Series()
@@ -525,7 +534,7 @@ data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-#print(df)
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
@@ -538,4 +547,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-#print(DataProfiling.findMistakes(DP.ser))
+print(DataProfiling.findMissingData(DP.data))
