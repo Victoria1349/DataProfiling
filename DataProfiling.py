@@ -6,6 +6,9 @@ from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+import xlwt
+from pandas import MultiIndex
+
 
 class DataProfiling(object):
     data = pd.DataFrame()
@@ -79,7 +82,7 @@ class DataProfiling(object):
     def cntOfOneValueInColumn(data):
         return Profiling.cntOfOneValueInColumn(data)
 
-    def dataStandardization(col):                 # ?
+    def dataStandardization(col):
         resCol = DataProfiling.cleanSkipsSer(col)
         return Profiling.dataStandardization(resCol)
 
@@ -177,8 +180,8 @@ class DataProfiling(object):
 
 
 
-    def metadataReport(data):                 # !!!!!
-        return Report.metadataReport(data)         # return?
+    def metadataReport(data, filename):
+        return Report.metadataReport(data, filename)         # return?
 
 
 # -----------------------------------------------------------------------------------------------
@@ -456,7 +459,7 @@ class Cleaning(object):
         for i in range(len(data)):
             tmp[i.__str__()] = data.loc[i]
             for j in range(i):
-                if  pd.Series.equals(tmp[i.__str__()], tmp[j.__str__()]):
+                if pd.Series.equals(tmp[i.__str__()], tmp[j.__str__()]):
                     indexes.append(i)
 
         df = data.drop(data.index[indexes])
@@ -510,6 +513,13 @@ class Structures(object):
         str = "Hello world"
 
     def relationsDetection(data):                 # !!!!
+        cntCol = data.shape[1]
+
+        for i in range(1):
+            print(data['count'])
+            print(data.index.array)
+            print(data.index[0])
+
         str = "Hello world"
 
 
@@ -517,15 +527,14 @@ class Structures(object):
 class Vizual(object):
 
     def datasetVisualization(data):                 # !!!!!
-        #str = "Hello world"
         pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
         plt.show()
 
 
 class Report(object):
 
-    def metadataReport(data):                 # !!!!!
-        str = "Hello world"
+    def metadataReport(data, filename):
+        data.to_excel(filename, sheet_name='report', na_rep='', header=True, index=True, merge_cells=MultiIndex, encoding='utf8', inf_rep='inf', verbose=True)
 
 
 # ------------------------------------------------------------------------------------------------
@@ -547,4 +556,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.fillMissingData(DP.data))
+print(DataProfiling.metadataReport(DP.data, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
