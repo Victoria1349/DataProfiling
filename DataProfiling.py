@@ -121,8 +121,8 @@ class DataProfiling(object):
     def cntOfSkipDataInColumn(col):
         return Cleaning.cntOfSkipDataInColumn(col)
 
-    def findMissingData(data):
-        return Cleaning.findMissingData(data)
+    def fillMissingData(data):
+        return Cleaning.fillMissingData(data)
 
     def delDuplicates(data):
         return Cleaning.delDuplicates(data)
@@ -437,7 +437,7 @@ class Cleaning(object):
                 cnt = cnt + 1
         return cnt
 
-    def findMissingData(data):
+    def fillMissingData(data):
         resData = data
         nans = Cleaning.findSkipsDF(resData)
 
@@ -547,4 +547,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.findMissingData(DP.data))
+print(DataProfiling.fillMissingData(DP.data))
