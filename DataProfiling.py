@@ -382,7 +382,7 @@ class Cleaning(object):
 
     def cleanEjections(col):
         delEl = Cleaning.findEjections(col)
-        print(delEl)
+        #print(delEl)
         resCol = col
 
         for i in range (len(delEl)):
@@ -529,13 +529,13 @@ df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, '62', 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,13,14])
-print(ser)
+#print(ser)
 
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.findMistakes(DP.ser))
+#print(DataProfiling.findMistakes(DP.ser))
