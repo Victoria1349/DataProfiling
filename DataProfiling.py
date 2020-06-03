@@ -180,8 +180,11 @@ class DataProfiling(object):
 
 
 
-    def metadataReport(data, filename):
-        return Report.metadataReport(data, filename)         # return?
+    def metadataReportDF(data, filename):
+        return Report.metadataReportDF(data, filename)         # return?
+
+    def metadataReportSer(data, filename):
+        return Report.metadataReportSer(data, filename)         # return?
 
 
 # -----------------------------------------------------------------------------------------------
@@ -533,8 +536,11 @@ class Vizual(object):
 
 class Report(object):
 
-    def metadataReport(data, filename):
+    def metadataReportDF(data, filename):
         data.to_excel(filename, sheet_name='report', na_rep='', header=True, index=True, merge_cells=MultiIndex, encoding='utf8', inf_rep='inf', verbose=True)
+
+    def metadataReportSer(ser, filename):
+        ser.to_excel(filename, sheet_name='report', na_rep='', header=True, index=True, merge_cells=MultiIndex, encoding='utf8', inf_rep='inf', verbose=True)
 
 
 # ------------------------------------------------------------------------------------------------
@@ -556,4 +562,4 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.metadataReport(DP.data, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
+print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
