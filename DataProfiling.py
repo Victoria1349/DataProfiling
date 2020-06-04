@@ -170,7 +170,7 @@ class DataProfiling(object):
         return Structures.structureDetection(data)         # return?
 
     def relationsDetection(data):                 # !!!!
-        return Structures.relationsDetection(data)         # return?
+        return Structures.relationsDetection(data)
 
 
 
@@ -531,13 +531,21 @@ class Structures(object):
 
             print(isUnic)
             if isUnic == True:
-                indUnics.append(data[cols[i]])
+                indUnics.append(i)         # find indexes of unic columns (keys)
 
         print(indUnics)
+        print('---')
 
-        '''for i in range (cntCol):
-            for j in range (cntCol):
-                if i != j and '''
+        rel = list()
+        for i in range (cntCol):    # find pairs of {key include in column}
+            for j in range (len(indUnics)):
+                isIncl = Structures.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
+                isUnic = Structures.isElInCol(indUnics, i)
+                if i != indUnics[j] and isIncl == True and isUnic == True:
+                    if Structures.isElInCol(rel, {cols[j], cols[i]}) == False:  # no repeats
+                        rel.append({cols[j], cols[i]})
+
+        return rel
 
 
 
@@ -579,19 +587,23 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
+'''data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 40, 'percent': 26.3}
-df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-#print(df)
+df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}'''
+data = 'price,count,percent\n1,2,2\n2,3,4\n3,1,5'
+df = pd.read_csv(StringIO(data))
+df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
+df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 ser = pd.Series([7,8,9,12,13,14])
 ser2 = pd.Series([7,7,7,8,9,12,12,13,14])
-print(ser)
-print(ser2)
+#print(ser)
+#print(ser2)
 
 DP = DataProfiling()
 DP.__setDF__(df)
@@ -599,5 +611,5 @@ DP.__setSeries__(ser)
 print("--")
 
 #print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
-#print(DataProfiling.relationsDetection(DP.data))
-print(Structures.isColIncludedInCol(ser,ser2))
+print(DataProfiling.relationsDetection(DP.data))
+#print(Structures.isColIncludedInCol(ser,ser2))
