@@ -6,7 +6,6 @@ from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
-import xlwt
 from pandas import MultiIndex
 
 
@@ -517,13 +516,48 @@ class Structures(object):
 
     def relationsDetection(data):                 # !!!!
         cntCol = data.shape[1]
+        cols = list(data)
+        indUnics = list()
 
-        for i in range(1):
-            print(data['count'])
-            print(data.index.array)
-            print(data.index[0])
+        for i in range (cntCol):
+            values = list(data[cols[i]])
+            print(values)
+            isUnic = True
 
-        str = "Hello world"
+            for j in range (len(values)):
+                for k in range (len(values)):
+                    if values[j] == values[k] and j != k:
+                        isUnic = False
+
+            print(isUnic)
+            if isUnic == True:
+                indUnics.append(data[cols[i]])
+
+        print(indUnics)
+
+        '''for i in range (cntCol):
+            for j in range (cntCol):
+                if i != j and '''
+
+
+
+    def isColIncludedInCol(inputCol, col):
+        isInCol = True
+
+        for i in range (len(inputCol)):
+            if Structures.isElInCol(col, inputCol[i]) == False:
+                isInCol = False
+
+        return isInCol
+
+    def isElInCol(col, el):
+        isInCol = False
+
+        for i in range (len(col)):
+            if col[i] == el:
+                isInCol = True
+
+        return isInCol
 
 
 
@@ -545,21 +579,25 @@ class Report(object):
 
 # ------------------------------------------------------------------------------------------------
 
-data = 'price,count,percent\n1,10,\n1,10,\n3,20,51'
+data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
 df = pd.read_csv(StringIO(data))
-df.loc[3] = {'price': 4, 'count': None, 'percent': 26.3}
+df.loc[3] = {'price': 4, 'count': 40, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}
-print(df)
+#print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-#ser = pd.Series([7,8,9,12,13,14])
-#print(ser)
+#ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+ser = pd.Series([7,8,9,12,13,14])
+ser2 = pd.Series([7,7,7,8,9,12,12,13,14])
+print(ser)
+print(ser2)
 
 DP = DataProfiling()
 DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
+#print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
+#print(DataProfiling.relationsDetection(DP.data))
+print(Structures.isColIncludedInCol(ser,ser2))
