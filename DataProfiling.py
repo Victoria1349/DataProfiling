@@ -10,7 +10,7 @@ from pandas import MultiIndex
 
 class DataProfiling(object):
     data = pd.DataFrame()
-    ser = pd.Series()
+    col = pd.Series()
 
     def __init__(self):
         """Constructor"""
@@ -61,8 +61,8 @@ class DataProfiling(object):
             print("All column is nans!")
             return
 
-        self.ser = col
-        return self.ser
+        self.col = col
+        return self.col
 
 
 
