@@ -1,7 +1,6 @@
 # Python 3
 import pandas as pd
 import numpy as np
-from io import StringIO
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
@@ -18,8 +17,8 @@ class maxValueTests(unittest.TestCase):
         ser = pd.Series([-200, 0, 24, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
         DP.__setSeries__(ser)
 
-        data = 'price,count,percent\n1,10,\n1,10,\n3,20,51\n4,,26.3\n4,50,26.3'
-        df = pd.read_csv(StringIO(data))
+        d = {"price": [1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
         DP.__setDF__(df)
 
         result = dp.maxValue(DP.ser)

@@ -172,10 +172,10 @@ class DataProfiling(object):
 
 
     def datasetVisualizationDF(data):                 # !!!!!
-        return Vizual.datasetVisualizationDF(data)         # return?
+        Vizual.datasetVisualizationDF(data)
 
     def datasetVisualizationSer(col):                 # !!!!!
-        return Vizual.datasetVisualizationSer(col)         # return?
+        Vizual.datasetVisualizationSer(col)
 
 
 
@@ -390,7 +390,6 @@ class Cleaning(object):
 
     def cleanEjections(col):
         delEl = Cleaning.findEjections(col)
-        #print(delEl)
         resCol = col
 
         for i in range (len(delEl)):
@@ -446,12 +445,10 @@ class Cleaning(object):
 
         cntCols = resData.shape[1]
         rowsList = list(rows)
-        #print(rowsList)
         delRows = list()
 
         # check if any rows are totally nulls
         for i in range (len(rowsList)):
-            #print(rowsList[i])
             if rowsList[i] == cntCols:
                 delRows.append(i)
 
@@ -538,7 +535,6 @@ class Statistics(object):
 
             else:
                 nums[str(el)] = 1
-
 
         plt.hist(col)
         plt.show()
