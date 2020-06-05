@@ -169,7 +169,7 @@ class DataProfiling(object):
     def structureDetection(data):                 # !!!!
         return Structures.structureDetection(data)         # return?
 
-    def relationsDetection(data):                 # !!!!
+    def relationsDetection(data):
         return Structures.relationsDetection(data)
 
 
@@ -514,14 +514,13 @@ class Structures(object):
     def structureDetection(data):                 # !!!!
         str = "Hello world"
 
-    def relationsDetection(data):                 # !!!!
+    def relationsDetection(data):
         cntCol = data.shape[1]
         cols = list(data)
         indUnics = list()
 
         for i in range (cntCol):
             values = list(data[cols[i]])
-            print(values)
             isUnic = True
 
             for j in range (len(values)):
@@ -529,24 +528,23 @@ class Structures(object):
                     if values[j] == values[k] and j != k:
                         isUnic = False
 
-            print(isUnic)
             if isUnic == True:
                 indUnics.append(i)         # find indexes of unic columns (keys)
 
-        print(indUnics)
-        print('---')
-
-        rel = list()
+        rels = list()
         for i in range (cntCol):    # find pairs of {key include in column}
             for j in range (len(indUnics)):
-                isIncl = Structures.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
-                isUnic = Structures.isElInCol(indUnics, i)
-                if i != indUnics[j] and isIncl == True and isUnic == True:
-                    if Structures.isElInCol(rel, {cols[j], cols[i]}) == False:  # no repeats
-                        rel.append({cols[j], cols[i]})
+                if i != indUnics[j]:    # same columns
+                    isIncl = Structures.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
+                    if isIncl == True:
+                        rel = PairsInRelations()
+                        rel.setter(cols[indUnics[j]], cols[i])
+                        rels.append(rel)
 
-        return rel
+        for i in range(len(rels)):
+            print(rels[i].key, rels[i].col)
 
+        return rels
 
 
     def isColIncludedInCol(inputCol, col):
@@ -567,6 +565,18 @@ class Structures(object):
 
         return isInCol
 
+
+class PairsInRelations(object):
+    key = 0
+    col = 0
+
+    def __init__(self):
+        """Constructor"""
+
+    def setter(self, key, col):
+        """Setter"""
+        self.key = key
+        self.col = col
 
 
 class Vizual(object):
@@ -591,10 +601,14 @@ class Report(object):
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 40, 'percent': 26.3}
 df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}'''
-data = 'price,count,percent\n1,2,2\n2,3,4\n3,1,5'
+
+'''data = 'price,count,percent\n1,2,2\n2,3,4\n3,1,5'
 df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
-df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}
+df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
+
+d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 3, 3, 1], "percent": [24, 51, 71, 1, 4]}
+df = pd.DataFrame(d)
 print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
