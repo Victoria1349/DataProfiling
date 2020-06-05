@@ -475,11 +475,12 @@ class Statistics(object):
         return col.groupby(col).size().nlargest(cnt)
 
     def frequencyFunc(data):                 # ?
-        #ids = [0.0, 0.0, 0.0]
-        plt.hist(data['percent'])
-        plt.show()
+        cols = list(data)
+        for i in range (data.shape[1]):
+            plt.hist(data[cols[i]])
+            plt.show()
+            
         return sns.kdeplot(data['percent'])
-        #return ids
 
     def moda(col):
         return col.mode()
@@ -611,5 +612,6 @@ DP.__setSeries__(ser)
 print("--")
 
 #print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
-print(DataProfiling.relationsDetection(DP.data))
+#print(DataProfiling.datasetVisualization(DP.data))
+print(DataProfiling.frequencyFunc(DP.data))
 #print(Structures.isColIncludedInCol(ser,ser2))
