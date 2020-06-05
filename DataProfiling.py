@@ -1,10 +1,9 @@
 # Python 3
 import pandas as pd
 import numpy as np
-#import xray
-from io import StringIO
+#from io import StringIO
 import matplotlib.pyplot as plt
-import seaborn as sns
+#import seaborn as sns
 import math
 from pandas import MultiIndex
 
@@ -169,16 +168,19 @@ class DataProfiling(object):
 
 
 
-    def datasetVisualization(data):                 # !!!!!
-        return Vizual.datasetVisualization(data)         # return?
+    def datasetVisualizationDF(data):                 # !!!!!
+        return Vizual.datasetVisualizationDF(data)         # return?
+
+    def datasetVisualizationSer(col):                 # !!!!!
+        return Vizual.datasetVisualizationSer(col)         # return?
 
 
 
     def metadataReportDF(data, filename):
-        return Report.metadataReportDF(data, filename)         # return?
+        Report.metadataReportDF(data, filename)
 
     def metadataReportSer(data, filename):
-        return Report.metadataReportSer(data, filename)         # return?
+        Report.metadataReportSer(data, filename)
 
 
 # -----------------------------------------------------------------------------------------------
@@ -589,8 +591,21 @@ class PairsInRelations(object):
 
 class Vizual(object):
 
-    def datasetVisualization(data):                 # !!!!!
-        pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
+    def datasetVisualizationDF(data):                 # !!!!!
+        #pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
+
+        df = data.cumsum()
+        '''plt.figure();'''
+        #df.plot();
+
+        df.plot(kind='bar');
+
+        plt.show()
+
+
+    def datasetVisualizationSer(col):                 # !!!!!
+        col2 = col.cumsum()
+        col2.plot()
         plt.show()
 
 
@@ -617,14 +632,13 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 3, 3, 1], "percent": [24, 51, 71, 1, 4]}
 df = pd.DataFrame(d)
-#print(df)
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+#ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
-#ser2 = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#print(ser)
+ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 print(ser)
 
 DP = DataProfiling()
@@ -632,6 +646,6 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
-#print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
-#print(DataProfiling.datasetVisualization(DP.data))
-print(DataProfiling.frequencyFunc(DP.ser))
+#'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
+print(DataProfiling.datasetVisualizationDF(DP.data))
+print(DataProfiling.datasetVisualizationSer(DP.ser))
