@@ -109,6 +109,9 @@ class DataProfiling(object):
     def findNullsSer(col):
         return Cleaning.findNullsSer(col)
 
+    def cleanNullsDF(data):
+        return Cleaning.cleanNullsDF(data)
+
     def cleanNullsSer(col):
         return Cleaning.cleanNullsSer(col)
 
@@ -422,6 +425,43 @@ class Cleaning(object):
 
         return ids
 
+    def cleanNullsDF(data):
+        resData = data
+        delEl = Cleaning.findNullsDF(resData)
+        delEl = list(delEl)
+        rows = pd.Series()
+
+        # colculate count of nulls in each row
+        for i in range (len(delEl)):
+            row = list(delEl[i].values())[0]
+
+            if len(rows) == 0:
+                rows[str(row)] = 1
+
+            elif Profiling.isIndInCol(rows, str(row)) == True:
+                rows[str(row)] = rows[str(row)] + 1
+
+            else:
+                rows[str(row)] = 1
+
+        cntCols = resData.shape[1]
+        rowsList = list(rows)
+        #print(rowsList)
+        delRows = list()
+
+        # check if any rows are totally nulls
+        for i in range (len(rowsList)):
+            #print(rowsList[i])
+            if rowsList[i] == cntCols:
+                delRows.append(i)
+
+        for i in range (len(delRows)):
+            delRows[i] = int(rows.index[delRows[i]])
+
+        resData = resData.drop(delRows)
+
+        return resData
+
     def cleanNullsSer(col):
         delEl = Cleaning.findNullsSer(col)
         resCol = col
@@ -630,7 +670,7 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 3, 3, 1], "percent": [24, 51, 71, 1, 4]}
+d = {"price":[1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -639,7 +679,7 @@ print(df)
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-print(ser)
+#print(ser)
 
 DP = DataProfiling()
 DP.__setDF__(df)
@@ -647,5 +687,5 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DataProfiling.datasetVisualizationDF(DP.data))
-print(DataProfiling.datasetVisualizationSer(DP.ser))
+print(DataProfiling.cleanNullsDF(DP.data))
+#print(DataProfiling.datasetVisualizationSer(DP.ser))
