@@ -483,12 +483,11 @@ class Statistics(object):
     def distributionFunc(col, cnt):
         return col.groupby(col).size().nlargest(cnt)
 
-    def frequencyFunc(col):                 # ?
+    def frequencyFunc(col):
         nums = pd.Series()
 
         # counts of each number in column:
         for el in col:
-            print(el)
             if len(nums) == 0:
                 nums[str(el)] = 1
 
@@ -500,7 +499,7 @@ class Statistics(object):
 
 
         plt.hist(col)
-        #plt.show()
+        plt.show()
 
         return nums
 
