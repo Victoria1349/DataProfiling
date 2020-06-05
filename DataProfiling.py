@@ -70,10 +70,6 @@ class DataProfiling(object):
     def dataType(col):
         return Profiling.dataType(col)
 
-    def funcType(func):                 # !
-        # проверить на пустую строку
-        return Profiling.funcType(func)
-
     def findMistakes(col):
         resCol = DataProfiling.cleanSkipsSer(col)
         return Profiling.findMistakes(resCol)
@@ -166,9 +162,6 @@ class DataProfiling(object):
 
 
 
-    def structureDetection(data):                 # !!!!
-        return Structures.structureDetection(data)         # return?
-
     def relationsDetection(data):
         return Structures.relationsDetection(data)
 
@@ -206,10 +199,6 @@ class Profiling(object):
 
     def dataType(col):
         return col.dtypes
-
-    def funcType(func):                 # !
-        str = "Hello world"
-        return str
 
     def findMistakes(col):
         resCol = pd.Series()
@@ -510,9 +499,6 @@ class Statistics(object):
 
 
 class Structures(object):
-
-    def structureDetection(data):                 # !!!!
-        str = "Hello world"
 
     def relationsDetection(data):
         cntCol = data.shape[1]
