@@ -137,11 +137,10 @@ class DataProfiling(object):
     def distributionFunc(col, cnt):
         return Statistics.distributionFunc(col, cnt)
 
-    def frequencyFunc(col):                 # ?
+    def frequencyFunc(col):
         delEls = Profiling.findMistakes(col)
-        print(delEls)
-        #Cleaning.
-        return Statistics.frequencyFunc(col)
+        col2 = Cleaning.cleanElsFromSer(delEls, col)
+        return Statistics.frequencyFunc(col2)
 
     def moda(col):
         resCol = DataProfiling.cleanSkipsSer(col)
@@ -623,11 +622,11 @@ df = pd.DataFrame(d)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-#ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
-ser2 = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
+ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+#ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
+#ser2 = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
+#print(ser)
 print(ser)
-print(ser2)
 
 DP = DataProfiling()
 DP.__setDF__(df)
@@ -636,5 +635,4 @@ print("--")
 
 #print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
 #print(DataProfiling.datasetVisualization(DP.data))
-#print(DataProfiling.frequencyFunc(DP.ser))
-print(Cleaning.cleanElsFromSer(ser,ser2))
+print(DataProfiling.frequencyFunc(DP.ser))
