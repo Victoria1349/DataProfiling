@@ -137,8 +137,9 @@ class DataProfiling(object):
     def distributionFunc(col, cnt):
         return Statistics.distributionFunc(col, cnt)
 
-    def frequencyFunc(data):                 # ?
-        return Statistics.frequencyFunc(data)
+    def frequencyFunc(col):                 # ?
+        
+        return Statistics.frequencyFunc(col)
 
     def moda(col):
         resCol = DataProfiling.cleanSkipsSer(col)
@@ -187,11 +188,9 @@ class Profiling(object):
     def elType(el):
         return type(el)
 
-    def isInd(col, ind):
+    def isIndInCol(col, ind):
         cnt = len(col)
         for i in range (cnt):
-            #print(str(col.index[i]), str(ind), str(col.index[i]) == str(ind))
-
             if str(col.index[i]) == str(ind):
                 return True
         return False
@@ -214,7 +213,7 @@ class Profiling(object):
                 if len(types) == 0:
                     types[str(tmpType)] = 1
 
-                elif Profiling.isInd(types, tmpType) == True:
+                elif Profiling.isIndInCol(types, tmpType) == True:
                     types[str(tmpType)] = types[str(tmpType)] + 1
 
                 else:
@@ -250,7 +249,7 @@ class Profiling(object):
     def cntOfOneValueInColumn(data):
         return data.stack().value_counts()
 
-    def dataStandardization(col):                 # ?
+    def dataStandardization(col):
         mean = Statistics.meanValue(col)
         sumX = 0
         for i in range (len(col)):
@@ -474,13 +473,26 @@ class Statistics(object):
     def distributionFunc(col, cnt):
         return col.groupby(col).size().nlargest(cnt)
 
-    def frequencyFunc(data):                 # ?
-        cols = list(data)
-        for i in range (data.shape[1]):
-            plt.hist(data[cols[i]])
-            plt.show()
-            
-        return sns.kdeplot(data['percent'])
+    def frequencyFunc(col):                 # ?
+        nums = pd.Series()
+
+        # counts of each number in column:
+        for el in col:
+            print(el)
+            if len(nums) == 0:
+                nums[str(el)] = 1
+
+            elif Profiling.isIndInCol(nums, str(el)) == True:
+                nums[str(el)] = nums[str(el)] + 1
+
+            else:
+                nums[str(el)] = 1
+
+
+        plt.hist(col)
+        #plt.show()
+
+        return nums
 
     def moda(col):
         return col.mode()
@@ -596,14 +608,14 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 3, 3, 1], "percent": [24, 51, 71, 1, 4]}
 df = pd.DataFrame(d)
-print(df)
+#print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-#ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-ser = pd.Series([7,8,9,12,13,14])
+ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+#ser = pd.Series([7,8,9,12,13,14])
 ser2 = pd.Series([7,7,7,8,9,12,12,13,14])
-#print(ser)
+print(ser)
 #print(ser2)
 
 DP = DataProfiling()
@@ -613,5 +625,5 @@ print("--")
 
 #print(DataProfiling.metadataReportSer(DP.ser, 'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'))
 #print(DataProfiling.datasetVisualization(DP.data))
-print(DataProfiling.frequencyFunc(DP.data))
+print(DataProfiling.frequencyFunc(DP.ser))
 #print(Structures.isColIncludedInCol(ser,ser2))
