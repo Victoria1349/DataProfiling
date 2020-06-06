@@ -70,14 +70,16 @@ class DataProfiling(object):
         return Profiling.dataType(self.col)
 
     def findMistakes(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Profiling.findMistakes(resCol)
 
     def cntOfOneValueInColumn(self):
         return Profiling.cntOfOneValueInColumn(self.data)
 
     def dataStandardization(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Profiling.dataStandardization(resCol)
 
     def dataNormalization(self):
@@ -133,7 +135,7 @@ class DataProfiling(object):
 
 
     def sumSer(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Statistics.sumSer(resCol)
 
     def distributionFunc(self, cnt):
@@ -145,7 +147,7 @@ class DataProfiling(object):
         return Statistics.frequencyFunc(col2)
 
     def moda(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Statistics.moda(resCol)
 
     def maxValue(self):
@@ -153,15 +155,15 @@ class DataProfiling(object):
         return Statistics.maxValue(resCol)
 
     def minValue(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Statistics.minValue(resCol)
 
     def meanValue(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Statistics.meanValue(resCol)
 
     def median(self):
-        resCol = DataProfiling.cleanSkipsSer()
+        resCol = self.cleanSkipsSer()
         return Statistics.median(resCol)
 
 
@@ -684,5 +686,6 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DP.cleanNullsDF())
+print(DP.maxValue())
+print(DP.dataStandardization())
 #print(DataProfiling.datasetVisualizationSer(DP.ser))
