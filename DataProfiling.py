@@ -83,7 +83,10 @@ class DataProfiling(object):
         return Profiling.dataStandardization(resCol)
 
     def dataNormalization(self):
-        return Profiling.dataNormalization(self.col)
+        resCol = self.col
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+        return Profiling.dataNormalization(resCol)
 
 
 
@@ -136,10 +139,15 @@ class DataProfiling(object):
 
     def sumSer(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.sumSer(resCol)
 
     def distributionFunc(self, cnt):
-        return Statistics.distributionFunc(self.col, cnt)
+        resCol = self.col
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+        return Statistics.distributionFunc(resCol, cnt)
 
     def frequencyFunc(self):
         delEls = Profiling.findMistakes(self.col)
@@ -148,22 +156,32 @@ class DataProfiling(object):
 
     def moda(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.moda(resCol)
 
     def maxValue(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.maxValue(resCol)
 
     def minValue(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.minValue(resCol)
 
     def meanValue(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.meanValue(resCol)
 
     def median(self):
         resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
         return Statistics.median(resCol)
 
 
@@ -177,7 +195,10 @@ class DataProfiling(object):
         Vizual.datasetVisualizationDF(self.data)
 
     def datasetVisualizationSer(self):                 # !!!!!
-        Vizual.datasetVisualizationSer(self.col)
+        resCol = self.col
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+        Vizual.datasetVisualizationSer(resCol)
 
 
 
@@ -185,7 +206,7 @@ class DataProfiling(object):
         Report.metadataReportDF(self.data, filename)
 
     def metadataReportSer(self, filename):
-        Report.metadataReportSer(self.data, filename)
+        Report.metadataReportSer(self.col, filename)
 
 
 # -----------------------------------------------------------------------------------------------
@@ -668,7 +689,7 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-d = {"price":[1, 2, 0, 4, 1], "count": [0, 4, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -676,7 +697,7 @@ print(df)
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
-ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
+ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 print(ser)
 print()
 
@@ -686,6 +707,5 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DP.maxValue())
-print(DP.dataStandardization())
-#print(DataProfiling.datasetVisualizationSer(DP.ser))
+print(DP.moda())
+#print(DP.datasetVisualizationSer())
