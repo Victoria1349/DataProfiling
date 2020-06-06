@@ -25,13 +25,13 @@ class DataProfiling(object):
             return
 
         # count of nulls
-        cntNulls = len(DataProfiling.findNullsDF(dt))
+        cntNulls = len(Cleaning.findNullsDF(dt))
         if cnt == cntNulls:
             print("All data is nulls!")
             return
 
         # count of nans
-        cntNans = len(DataProfiling.findSkipsDF(dt))
+        cntNans = len(Cleaning.findSkipsDF(dt))
         if cnt == cntNans:
             print("All data is nans!")
             return
@@ -50,13 +50,13 @@ class DataProfiling(object):
             return
 
         # count of nulls
-        cntNulls = len(DataProfiling.findNullsSer(col))
+        cntNulls = len(Cleaning.findNullsSer(col))
         if cnt == cntNulls:
             print("All column is nulls!")
             return
 
         # count of nans
-        cntNans = DataProfiling.cntOfSkipDataInColumn(col)
+        cntNans = Cleaning.cntOfSkipDataInColumn(col)
         if cnt == cntNans:
             print("All column is nans!")
             return
@@ -66,124 +66,124 @@ class DataProfiling(object):
 
 
 
-    def dataType(col):
-        return Profiling.dataType(col)
+    def dataType(self):
+        return Profiling.dataType(self.col)
 
-    def findMistakes(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def findMistakes(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Profiling.findMistakes(resCol)
 
-    def cntOfOneValueInColumn(data):
-        return Profiling.cntOfOneValueInColumn(data)
+    def cntOfOneValueInColumn(self):
+        return Profiling.cntOfOneValueInColumn(self.data)
 
-    def dataStandardization(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def dataStandardization(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Profiling.dataStandardization(resCol)
 
-    def dataNormalization(col):
-        return Profiling.dataNormalization(col)
+    def dataNormalization(self):
+        return Profiling.dataNormalization(self.col)
 
 
 
-    def findSkipsDF(data):
-        return Cleaning.findSkipsDF(data)
+    def findSkipsDF(self):
+        return Cleaning.findSkipsDF(self.data)
 
-    def findSkipsSer(col):
-        return Cleaning.findSkipsSer(col)
+    def findSkipsSer(self):
+        return Cleaning.findSkipsSer(self.col)
 
-    def cleanSkipsDF(data):
-        return Cleaning.cleanSkipsDF(data)
+    def cleanSkipsDF(self):
+        return Cleaning.cleanSkipsDF(self.data)
 
-    def cleanSkipsSer(col):
-        return Cleaning.cleanSkipsSer(col)
+    def cleanSkipsSer(self):
+        return Cleaning.cleanSkipsSer(self.col)
 
-    def findEjections(col):
-        return Cleaning.findEjections(col)
+    def findEjections(self):
+        return Cleaning.findEjections(self.col)
 
-    def cleanEjections(col):
-        return Cleaning.cleanEjections(col)
+    def cleanEjections(self):
+        return Cleaning.cleanEjections(self.col)
 
-    def findNullsDF(data):
-        return Cleaning.findNullsDF(data)
+    def findNullsDF(self):
+        return Cleaning.findNullsDF(self.data)
 
-    def findNullsSer(col):
-        return Cleaning.findNullsSer(col)
+    def findNullsSer(self):
+        return Cleaning.findNullsSer(self.col)
 
-    def cleanNullsDF(data):
-        return Cleaning.cleanNullsDF(data)
+    def cleanNullsDF(self):
+        return Cleaning.cleanNullsDF(self.data)
 
-    def cleanNullsSer(col):
-        return Cleaning.cleanNullsSer(col)
+    def cleanNullsSer(self):
+        return Cleaning.cleanNullsSer(self.col)
 
-    def cntOfSkipDataInDF(data):
-        return Cleaning.cntOfSkipDataInDF(data)
+    def cntOfSkipDataInDF(self):
+        return Cleaning.cntOfSkipDataInDF(self.data)
 
-    def cntOfSkipDataInColumn(col):
-        return Cleaning.cntOfSkipDataInColumn(col)
+    def cntOfSkipDataInColumn(self):
+        return Cleaning.cntOfSkipDataInColumn(self.col)
 
-    def fillMissingData(data):
-        return Cleaning.fillMissingData(data)
+    def fillMissingData(self):
+        return Cleaning.fillMissingData(self.data)
 
-    def delDuplicates(data):
-        return Cleaning.delDuplicates(data)
+    def delDuplicates(self):
+        return Cleaning.delDuplicates(self.data)
 
-    def replacementMissings(data, cnt):
-        return Cleaning.replacementMissings(data, cnt)
+    def replacementMissings(self, cnt):
+        return Cleaning.replacementMissings(self.data, cnt)
 
 
 
-    def sumSer(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def sumSer(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Statistics.sumSer(resCol)
 
-    def distributionFunc(col, cnt):
-        return Statistics.distributionFunc(col, cnt)
+    def distributionFunc(self, cnt):
+        return Statistics.distributionFunc(self.col, cnt)
 
-    def frequencyFunc(col):
-        delEls = Profiling.findMistakes(col)
-        col2 = Cleaning.cleanElsFromSer(delEls, col)
+    def frequencyFunc(self):
+        delEls = Profiling.findMistakes(self.col)
+        col2 = Cleaning.cleanElsFromSer(delEls, self.col)
         return Statistics.frequencyFunc(col2)
 
-    def moda(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def moda(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Statistics.moda(resCol)
 
-    def maxValue(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def maxValue(self):
+        resCol = self.cleanSkipsSer()
         return Statistics.maxValue(resCol)
 
-    def minValue(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def minValue(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Statistics.minValue(resCol)
 
-    def meanValue(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def meanValue(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Statistics.meanValue(resCol)
 
-    def median(col):
-        resCol = DataProfiling.cleanSkipsSer(col)
+    def median(self):
+        resCol = DataProfiling.cleanSkipsSer()
         return Statistics.median(resCol)
 
 
 
-    def relationsDetection(data):
-        return Structures.relationsDetection(data)
+    def relationsDetection(self):
+        return Structures.relationsDetection(self.data)
 
 
 
-    def datasetVisualizationDF(data):                 # !!!!!
-        Vizual.datasetVisualizationDF(data)
+    def datasetVisualizationDF(self):                 # !!!!!
+        Vizual.datasetVisualizationDF(self.data)
 
-    def datasetVisualizationSer(col):                 # !!!!!
-        Vizual.datasetVisualizationSer(col)
+    def datasetVisualizationSer(self):                 # !!!!!
+        Vizual.datasetVisualizationSer(self.col)
 
 
 
-    def metadataReportDF(data, filename):
-        Report.metadataReportDF(data, filename)
+    def metadataReportDF(self, filename):
+        Report.metadataReportDF(self.data, filename)
 
-    def metadataReportSer(data, filename):
-        Report.metadataReportSer(data, filename)
+    def metadataReportSer(self, filename):
+        Report.metadataReportSer(self.data, filename)
 
 
 # -----------------------------------------------------------------------------------------------
@@ -666,7 +666,7 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-d = {"price":[1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
+d = {"price":[1, 2, 0, 4, 1], "count": [0, 4, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -675,7 +675,8 @@ print(df)
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#print(ser)
+print(ser)
+print()
 
 DP = DataProfiling()
 DP.__setDF__(df)
@@ -683,5 +684,5 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DataProfiling.cleanNullsDF(DP.data))
+print(DP.cleanNullsDF())
 #print(DataProfiling.datasetVisualizationSer(DP.ser))
