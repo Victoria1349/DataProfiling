@@ -211,8 +211,8 @@ class Profiling(object):
     def elType(el):
         return type(el)
 
-    def isIndInCol(col, ind):
-        cnt = len(col)
+    def isIndInCol(col, ind):################################
+        cnt = len(col)+1
         for i in range (cnt):
             if str(col.index[i]) == str(ind):
                 return True
@@ -248,7 +248,7 @@ class Profiling(object):
             # find index of our max type and max type itself
             indMax = 0
             cntMax = 0
-            for i in range (len(types)):
+            for i in range (len(types)+1):#######################################
                 if types.values[i] == max:
                     indMax = i
                     cntMax = cntMax + 1
@@ -276,11 +276,11 @@ class Profiling(object):
     def dataStandardization(col):
         mean = Statistics.meanValue(col)
         sumX = 0
-        for i in range (len(col)):
+        for i in range (len(col)+1):##############################################
             sumX = sumX + ((col[i] - mean) * (col[i] - mean))
         standard_deviation = np.math.sqrt(sumX / len(col))
 
-        for i in range (len(col)):
+        for i in range (len(col)+1):##########################################
             col[i] = (col[i] - mean) / standard_deviation
 
         return col
@@ -306,7 +306,7 @@ class Cleaning(object):
         resCol = col
         indsDel = els.index
 
-        for i in range (len(indsDel)):
+        for i in range (len(indsDel)+1):############################################
             resCol = resCol.drop(labels=[indsDel[i]])
 
         return resCol
@@ -336,7 +336,7 @@ class Cleaning(object):
         ids = []
         cnt = len(col)
 
-        for i in range(cnt):
+        for i in range(cnt+1):#################################
             if col[i] != col[i]:
                 ids.append(i)
 
@@ -402,7 +402,7 @@ class Cleaning(object):
         #print(left, right)
         #print()
 
-        for i in range (n):
+        for i in range (n+1):################################################
             if(col[i] < left or col[i] > right):
                 ej[col.index[i].__str__()] = col[i]
 
@@ -412,7 +412,7 @@ class Cleaning(object):
         delEl = Cleaning.findEjections(col)
         resCol = col
 
-        for i in range (len(delEl)):
+        for i in range (len(delEl)+1):###################################
             resCol = resCol.drop(labels=delEl.index[i])
 
         return resCol
@@ -438,7 +438,7 @@ class Cleaning(object):
         ids = []
         cnt = len(col)
 
-        for i in range (cnt):
+        for i in range (cnt+1):######################################
             if Cleaning.isNull(col[i]):
                 ids.append(col.index[i])
 
@@ -451,7 +451,7 @@ class Cleaning(object):
         rows = pd.Series()
 
         # colculate count of nulls in each row
-        for i in range (len(delEl)):
+        for i in range (len(delEl)+1):############################################
             row = list(delEl[i].values())[0]
 
             if len(rows) == 0:
@@ -468,11 +468,11 @@ class Cleaning(object):
         delRows = list()
 
         # check if any rows are totally nulls
-        for i in range (len(rowsList)):
+        for i in range (len(rowsList)+1):#####################################
             if rowsList[i] == cntCols:
                 delRows.append(i)
 
-        for i in range (len(delRows)):
+        for i in range (len(delRows)+1):#########################################
             delRows[i] = int(rows.index[delRows[i]])
 
         resData = resData.drop(delRows)
@@ -503,7 +503,7 @@ class Cleaning(object):
         resData = data
         nans = Cleaning.findSkipsDF(resData)
 
-        for i in range (len(nans)):
+        for i in range (len(nans)+1):######################################################
             col = list(nans[i].keys())[0]
             row = list(nans[i].values())[0]
 
@@ -515,7 +515,7 @@ class Cleaning(object):
     def delDuplicates(data):
         tmp = pd.Series()
         indexes = []
-        for i in range(len(data)):
+        for i in range(len(data)+1):###################################################
             tmp[i.__str__()] = data.loc[i]
             for j in range(i):
                 if pd.Series.equals(tmp[i.__str__()], tmp[j.__str__()]):
@@ -543,6 +543,23 @@ class Statistics(object):
                 sum = sum + resCol[i]
 
         return sum
+
+    def isEqDF(df1, df2):
+
+        return
+
+    def isEqSer(ser1, ser2):
+        col1 = Cleaning.cleanSkipsSer(ser1)
+        col2 = Cleaning.cleanSkipsSer(ser2)
+
+        if len(col1) != len(col2):
+            return False
+
+        for i in range (len(col1)+1):
+            if Structures.isElInCol(list(col1.index), i) and Structures.isElInCol(list(col2.index), i) and col1[i] != col2[i]:
+                return False
+
+        return True
 
     # ----------
 
@@ -590,7 +607,7 @@ class Structures(object):
     def isColIncludedInCol(inputCol, col):
         isInCol = True
 
-        for i in range (len(inputCol)):
+        for i in range (len(inputCol)+1):######################################################
             if Structures.isElInCol(col, inputCol[i]) == False:
                 isInCol = False
 
@@ -599,7 +616,7 @@ class Structures(object):
     def isElInCol(col, el):
         isInCol = False
 
-        for i in range (len(col)):
+        for i in range (len(col)+1):##################################
             if col[i] == el:
                 isInCol = True
 
@@ -616,8 +633,8 @@ class Structures(object):
             values = list(data[cols[i]])
             isUnic = True
 
-            for j in range (len(values)):
-                for k in range (len(values)):
+            for j in range (len(values)+1):##########################################################
+                for k in range (len(values)+1):##############################################
                     if values[j] == values[k] and j != k:
                         isUnic = False
 
@@ -626,7 +643,7 @@ class Structures(object):
 
         rels = list()
         for i in range (cntCol):    # find pairs of {key include in column}
-            for j in range (len(indUnics)):
+            for j in range (len(indUnics)+1):########################################################################
                 if i != indUnics[j]:    # same columns
                     isIncl = Structures.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
                     if isIncl == True:
@@ -634,7 +651,7 @@ class Structures(object):
                         rel.setter(cols[indUnics[j]], cols[i])
                         rels.append(rel)
 
-        for i in range(len(rels)):
+        for i in range(len(rels)+1):######################################################
             print(rels[i].key, rels[i].col)
 
         return rels
@@ -705,7 +722,8 @@ print(df)
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 #ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24])
+ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 42])
+ser2 = pd.Series([-200, 0, 2, np.nan, 150, 62, 24])
 print(ser)
 print()
 
@@ -716,4 +734,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.distributionFunc())
+#print(DP.distributionFunc())
+print(Statistics.isEqSer(ser,ser2))
