@@ -137,17 +137,11 @@ class DataProfiling(object):
 
 
 
-    def sumSer(self):
-        resCol = self.cleanSkipsSer()
-        delEls = Profiling.findMistakes(resCol)
-        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
-        return Statistics.sumSer(resCol)
-
-    def distributionFunc(self, cnt):
+    def distributionFunc(self):
         resCol = self.col
         delEls = Profiling.findMistakes(resCol)
         resCol = Cleaning.cleanElsFromSer(delEls, resCol)
-        return Statistics.distributionFunc(resCol, cnt)
+        return Statistics.distributionFunc(resCol)
 
     def frequencyFunc(self):
         delEls = Profiling.findMistakes(self.col)
@@ -224,6 +218,7 @@ class Profiling(object):
                 return True
         return False
 
+    # ----------
 
     def dataType(col):
         return col.dtypes
@@ -318,6 +313,8 @@ class Cleaning(object):
 
     def isNull(cnt):
         return cnt == 0
+
+    # ----------
 
     def findSkipsDF(data):
         rez = pd.Series()
@@ -535,15 +532,22 @@ class Cleaning(object):
 class Statistics(object):
 
     def sumSer(col):
+        resCol = Cleaning.cleanSkipsSer(col)
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+
         sum = 0
 
-        for i in range (len(col)):
-            sum = sum + col[i]
+        for i in range (len(resCol)+1):
+            if Structures.isElInCol(list(resCol.index), i):
+                sum = sum + resCol[i]
 
         return sum
 
-    def distributionFunc(col, cnt):
-        return col.groupby(col).size().nlargest(cnt)
+    # ----------
+
+    def distributionFunc(col):
+        return col.groupby(col).size().nlargest(len(col))
 
     def frequencyFunc(col):
         nums = pd.Series()
@@ -583,6 +587,26 @@ class Statistics(object):
 
 class Structures(object):
 
+    def isColIncludedInCol(inputCol, col):
+        isInCol = True
+
+        for i in range (len(inputCol)):
+            if Structures.isElInCol(col, inputCol[i]) == False:
+                isInCol = False
+
+        return isInCol
+
+    def isElInCol(col, el):
+        isInCol = False
+
+        for i in range (len(col)):
+            if col[i] == el:
+                isInCol = True
+
+        return isInCol
+
+    # ----------
+
     def relationsDetection(data):
         cntCol = data.shape[1]
         cols = list(data)
@@ -616,37 +640,6 @@ class Structures(object):
         return rels
 
 
-    def isColIncludedInCol(inputCol, col):
-        isInCol = True
-
-        for i in range (len(inputCol)):
-            if Structures.isElInCol(col, inputCol[i]) == False:
-                isInCol = False
-
-        return isInCol
-
-    def isElInCol(col, el):
-        isInCol = False
-
-        for i in range (len(col)):
-            if col[i] == el:
-                isInCol = True
-
-        return isInCol
-
-
-class PairsInRelations(object):
-    key = 0
-    col = 0
-
-    def __init__(self):
-        """Constructor"""
-
-    def setter(self, key, col):
-        """Setter"""
-        self.key = key
-        self.col = col
-
 
 class Vizual(object):
 
@@ -677,6 +670,20 @@ class Report(object):
         ser.to_excel(filename, sheet_name='report', na_rep='', header=True, index=True, merge_cells=MultiIndex, encoding='utf8', inf_rep='inf', verbose=True)
 
 
+# ----------
+
+class PairsInRelations(object):
+    key = 0
+    col = 0
+
+    def __init__(self):
+        """Constructor"""
+
+    def setter(self, key, col):
+        """Setter"""
+        self.key = key
+        self.col = col
+
 # ------------------------------------------------------------------------------------------------
 
 '''data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
@@ -696,8 +703,9 @@ print(df)
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
+#ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 #ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
+ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24])
 print(ser)
 print()
 
@@ -707,5 +715,5 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DP.moda())
 #print(DP.datasetVisualizationSer())
+print(DP.distributionFunc())

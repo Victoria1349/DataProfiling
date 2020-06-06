@@ -10,6 +10,62 @@ from DataProfiling import DataProfiling
 
 # class Statistics
 
+class distributionFuncTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.distributionFunc()
+        expRes = pd.Series([1,1,1,1,1,1], [-200,0,2,24,62,150])
+        #if
+        self.assertEqual(result, 0)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24])
+        DP.__setSeries__(ser)
+
+        result = DP.distributionFunc()
+        self.assertEqual(result, pd.Series())
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([150, 150, 150, 150, 150, 150, 150])
+        DP.__setSeries__(ser)
+
+        result = DP.distributionFunc()
+        self.assertEqual(result, pd.Series())
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        res = DP.distributionFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.distributionFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.distributionFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
 class modaTests(unittest.TestCase):
 
     def test_diff(self):
