@@ -8,6 +8,58 @@ import unittest
 from DataProfiling import DataProfiling
 
 
+# class Statistics
+
+class modaTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [-200, 0, 2, 24, 62, 150])
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [0, 24])
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([150, 150, 150, 150, 150, 150, 150], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [150])
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [])
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [])
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        result = list(DP.moda())
+        self.assertEqual(result, [])
+
 
 class maxValueTests(unittest.TestCase):
 
@@ -65,6 +117,195 @@ class maxValueTests(unittest.TestCase):
         DP.__setSeries__(ser)
 
         res = DP.maxValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class minValueTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.minValue()
+        self.assertEqual(result, -200)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.minValue()
+        self.assertEqual(result, -200)
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, -200, -200, -200, -200, -200, -200], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.minValue()
+        self.assertEqual(result, -200)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        res = DP.minValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.minValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.minValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class meanValueTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.meanValue()
+        self.assertEqual(result, 6.333333333333333)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.meanValue()
+        self.assertEqual(result, -0.3333333333333333)
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, -200, -200, -200, -200, -200, -200], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.meanValue()
+        self.assertEqual(result, -200)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        res = DP.meanValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.meanValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.meanValue()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class medianTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.median()
+        self.assertEqual(result, 13)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.median()
+        self.assertEqual(result, 12)
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, -200, -200, -200, -200, -200, -200], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
+        DP.__setSeries__(ser)
+
+        result = DP.median()
+        self.assertEqual(result, -200)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        res = DP.median()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.median()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.median()
         if str(res) == str(np.nan): # hack of checking empty data
             result = True
         else:
