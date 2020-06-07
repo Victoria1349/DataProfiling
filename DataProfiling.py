@@ -493,18 +493,18 @@ class Cleaning(object):
 
     def findNullsDF(data):
         rez = pd.Series()
-        id = 0
+        ind = 0
         row = 0
 
         for col in data:
             for el in data[col]:
                 if DataProfiling.isNull(el):
                     d = {col: row}
-                    rez[id.__str__()] = d
+                    rez[ind.__str__()] = d
+                    ind = ind + 1
                 row = row + 1
                 if row > len(data.index)-1:
                     row = 0
-                id = id + 1
 
         return rez
 
@@ -738,7 +738,7 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 #d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
 df = pd.DataFrame(d)
-#print(df)
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
@@ -748,7 +748,7 @@ df = pd.DataFrame(d)
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 ser = pd.Series([-20, 0, 20, 0, 15, 6, 42, -200, 12, 45, 10, 10, 0, 22])
 #ser = pd.Series()
-print(ser)
+#print(ser)
 
 print()
 
@@ -759,5 +759,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.cleanEjections())
+print(DP.findNullsDF())
 #print(DataProfiling.isEqSer(ser,ser1))

@@ -367,6 +367,249 @@ class cleanEjectionsTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
+class findNullsDFTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 4, 5], "count": [10, 4, 10, 3, 1], "percent": [24, 51, 10, 10, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findNullsDF()
+        expRes = pd.Series([])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 0, np.nan, 5], "count": [0, 4, 0, 3, 1], "percent": [np.nan, 51, 0, 10, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findNullsDF()
+        expRes = pd.Series([{'price': 3}, {'count': 0}, {'count': 2}, {'percent': 2}])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+'''
+class cleanNullsDFTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cleanNullsDF()
+        expRes = pd.DataFrame(d)
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [8, 51, 0, 4, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cleanNullsDF()
+        d = {"price": [1.0, 2.0, 0.0, 5.0], "count": [0.0, 4.0, 0.0, 1.0], "percent": [8.0, 51.0, 0.0, 4.0]}
+        expRes = pd.DataFrame(d)
+
+        print()
+        print(res)
+        print(expRes)
+
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cleanNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cleanNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cleanNullsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
+class findNullsSerTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.findNullsSer()
+        expRes = pd.Series([])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.findNullsSer()
+        expRes = list([3,5])
+        print(res)
+        print(expRes)
+        if res == expRes:
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.findNullsSer()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.findNullsSer()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan, np.nan, np.nan, np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.findNullsSer()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+
+class cleanNullsSerTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanNullsSer()
+        expRes = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanNullsSer()
+        expRes = pd.Series([-200, 0, 2, 150, np.nan, 24])
+
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanNullsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanNullsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan, np.nan, np.nan, np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanNullsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+'''
+
 
 
 
