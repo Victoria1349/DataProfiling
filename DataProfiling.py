@@ -747,7 +747,7 @@ print(df)
 #ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-ser = pd.Series([-20, 0, 20, 0, 15, 6, 42, -200, 12, 45, 10, 10, 0, 22])
+ser = pd.Series([-20, 0, 20, 0, 15, np.nan, 42, -200, 12, 45, 10, 10, 0, 22])
 #ser = pd.Series()
 #print(ser)
 
@@ -760,5 +760,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.cntOfSkipDataInDF())
+print(DP.cntOfSkipDataInColumn())
 #print(DataProfiling.isEqSer(ser,ser1))
