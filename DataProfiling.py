@@ -109,7 +109,10 @@ class DataProfiling(object):
         return Cleaning.findEjections(resCol)
 
     def cleanEjections(self):
-        return Cleaning.cleanEjections(self.col)
+        resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+        return Cleaning.cleanEjections(resCol)
 
     def findNullsDF(self):
         return Cleaning.findNullsDF(self.data)
@@ -312,7 +315,7 @@ class Cleaning(object):
         indsDel = els.index
 
         for i in range (len(indsDel)):
-            resCol = resCol.drop(labels=[(indsDel[i])])     # int ??
+            resCol = resCol.drop(labels=[(indsDel[i])])     # int ???????????????
 
         return resCol
 
@@ -417,7 +420,7 @@ class Cleaning(object):
         delEl = Cleaning.findEjections(col)
         resCol = col
 
-        for i in range (len(delEl)+1):###################################
+        for i in range (len(delEl)):
             resCol = resCol.drop(labels=delEl.index[i])
 
         return resCol
@@ -456,7 +459,7 @@ class Cleaning(object):
         rows = pd.Series()
 
         # colculate count of nulls in each row
-        for i in range (len(delEl)+1):############################################
+        for i in range (len(delEl)):
             row = list(delEl[i].values())[0]
 
             if len(rows) == 0:
@@ -473,11 +476,11 @@ class Cleaning(object):
         delRows = list()
 
         # check if any rows are totally nulls
-        for i in range (len(rowsList)+1):#####################################
+        for i in range (len(rowsList)):
             if rowsList[i] == cntCols:
                 delRows.append(i)
 
-        for i in range (len(delRows)+1):#########################################
+        for i in range (len(delRows)):
             delRows[i] = int(rows.index[delRows[i]])
 
         resData = resData.drop(delRows)
@@ -508,7 +511,7 @@ class Cleaning(object):
         resData = data
         nans = Cleaning.findSkipsDF(resData)
 
-        for i in range (len(nans)+1):######################################################
+        for i in range (len(nans)):
             col = list(nans[i].keys())[0]
             row = list(nans[i].values())[0]
 
@@ -520,7 +523,7 @@ class Cleaning(object):
     def delDuplicates(data):
         tmp = pd.Series()
         indexes = []
-        for i in range(len(data)+1):###################################################
+        for i in range(len(data)):
             tmp[i.__str__()] = data.loc[i]
             for j in range(i):
                 if pd.Series.equals(tmp[i.__str__()], tmp[j.__str__()]):
@@ -626,7 +629,7 @@ class Structures(object):
     def isColIncludedInCol(inputCol, col):
         isInCol = True
 
-        for i in range (len(inputCol)+1):######################################################
+        for i in range (len(inputCol)):
             if Structures.isElInCol(col, inputCol[i]) == False:
                 isInCol = False
 
@@ -662,7 +665,7 @@ class Structures(object):
 
         rels = list()
         for i in range (cntCol):    # find pairs of {key include in column}
-            for j in range (len(indUnics)+1):########################################################################
+            for j in range (len(indUnics)):
                 if i != indUnics[j]:    # same columns
                     isIncl = Structures.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
                     if isIncl == True:
@@ -670,7 +673,7 @@ class Structures(object):
                         rel.setter(cols[indUnics[j]], cols[i])
                         rels.append(rel)
 
-        for i in range(len(rels)+1):######################################################
+        for i in range(len(rels)):
             print(rels[i].key, rels[i].col)
 
         return rels
@@ -732,17 +735,19 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+#d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+d = {"price":[1, 2, 3, 4, 5], "count": [2, 2, 1, 3, 4], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
-#print(df)
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-#ser = pd.Series([7,8,9,12,500,14], ['a', 'd', 'e', 'j', 'i', 'g'])
-#ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
+ser = pd.Series([7,8,9,12,13,14], ['a', 'd', 'e', 'j', 'i', 'g'])
+#ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 #ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
-print(ser)
+#print(ser)
+
 print()
 
 DP = DataProfiling()
@@ -752,5 +757,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.findEjections())
-#print(Statistics.isEqDF(df,df2))
+print(DP.relationsDetection())
+#print(Structures.isColIncludedInCol(ser,ser1))
