@@ -553,16 +553,15 @@ class findNullsSerTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
-'''
 class cleanNullsSerTests(unittest.TestCase):
 
     def test_full(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        ser = pd.Series([-200, 10, 2, 10, 150, 62, 24])
         DP.__setSeries__(ser)
 
         res = DP.cleanNullsSer()
-        expRes = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        expRes = pd.Series([-200, 10, 2, 10, 150, 62, 24])
         if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
@@ -571,11 +570,11 @@ class cleanNullsSerTests(unittest.TestCase):
 
     def test_someNulls(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        ser = pd.Series([-200, 0, 2, np.nan, 150, 0, 24])
         DP.__setSeries__(ser)
 
         res = DP.cleanNullsSer()
-        expRes = pd.Series([-200, 0, 2, 150, np.nan, 24])
+        expRes = pd.Series([-200, 2, np.nan, 150, 24], [0,2,3,4,6])
 
         if DataProfiling.isEqSer(res, expRes):
             result = True
@@ -609,7 +608,6 @@ class cleanNullsSerTests(unittest.TestCase):
         res = DP.cleanNullsSer()
         result = res.empty
         self.assertEqual(result, True)
-'''
 
 
 
