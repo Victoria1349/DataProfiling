@@ -258,9 +258,8 @@ class DataProfiling(object):
 
         sum = 0
 
-        for i in range (len(resCol)+1):
-            if DataProfiling.isElInCol(list(resCol.index), i):
-                sum = sum + resCol[i]
+        for el in resCol:
+            sum = sum + el
 
         return sum
 
@@ -741,7 +740,7 @@ print(df)
 ser = pd.Series([7,8,9,12,13,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 #ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
-#print(ser)
+print(ser)
 
 print()
 
@@ -752,5 +751,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.relationsDetection())
+print(DataProfiling.sumSer(ser))
 #print(DataProfiling.isColIncludedInCol(ser,ser1))
