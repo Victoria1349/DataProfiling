@@ -79,6 +79,75 @@ class distributionFuncTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
+class frequencyFuncTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 0, 2, 2])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        expRes = pd.Series([1,2,3], [-200,0,2])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, -200, 0, 2, 2])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        expRes = pd.Series([2,2,2], [-200,0,2])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([150, 150, 150, 150])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        expRes = pd.Series([4], [150])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([], [])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.frequencyFunc()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
 class modaTests(unittest.TestCase):
 
     def test_diff(self):
