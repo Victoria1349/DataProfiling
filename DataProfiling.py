@@ -211,8 +211,8 @@ class Profiling(object):
     def elType(el):
         return type(el)
 
-    def isIndInCol(col, ind):################################
-        cnt = len(col)+1
+    def isIndInCol(col, ind):
+        cnt = len(col)
         for i in range (cnt):
             if str(col.index[i]) == str(ind):
                 return True
@@ -248,7 +248,7 @@ class Profiling(object):
             # find index of our max type and max type itself
             indMax = 0
             cntMax = 0
-            for i in range (len(types)+1):#######################################
+            for i in range (len(types)):
                 if types.values[i] == max:
                     indMax = i
                     cntMax = cntMax + 1
@@ -276,12 +276,14 @@ class Profiling(object):
     def dataStandardization(col):
         mean = Statistics.meanValue(col)
         sumX = 0
-        for i in range (len(col)+1):##############################################
-            sumX = sumX + ((col[i] - mean) * (col[i] - mean))
+        for i in range (len(col)):
+            if Structures.isElInCol(list(col.index), i):
+                sumX = sumX + ((col[i] - mean) * (col[i] - mean))
         standard_deviation = np.math.sqrt(sumX / len(col))
 
-        for i in range (len(col)+1):##########################################
-            col[i] = (col[i] - mean) / standard_deviation
+        for i in range (len(col)):
+            if Structures.isElInCol(list(col.index), i):
+                col[i] = (col[i] - mean) / standard_deviation
 
         return col
 
@@ -307,7 +309,7 @@ class Cleaning(object):
         indsDel = els.index
 
         for i in range (len(indsDel)):
-            resCol = resCol.drop(labels=[indsDel[i]])
+            resCol = resCol.drop(labels=[int(indsDel[i])])
 
         return resCol
 
@@ -647,8 +649,8 @@ class Structures(object):
             values = list(data[cols[i]])
             isUnic = True
 
-            for j in range (len(values)+1):##########################################################
-                for k in range (len(values)+1):##############################################
+            for j in range (len(values)):
+                for k in range (len(values)):
                     if values[j] == values[k] and j != k:
                         isUnic = False
 
@@ -736,7 +738,7 @@ print(df)
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 #ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 42])
+ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
 print(ser)
 print()
 
@@ -747,5 +749,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.distributionFunc())
+print(DP.dataStandardization())
 #print(Statistics.isEqDF(df,df2))
