@@ -103,7 +103,10 @@ class DataProfiling(object):
         return Cleaning.cleanSkipsSer(self.col)
 
     def findEjections(self):
-        return Cleaning.findEjections(self.col)
+        resCol = self.cleanSkipsSer()
+        delEls = Profiling.findMistakes(resCol)
+        resCol = Cleaning.cleanElsFromSer(delEls, resCol)
+        return Cleaning.findEjections(resCol)
 
     def cleanEjections(self):
         return Cleaning.cleanEjections(self.col)
@@ -309,7 +312,7 @@ class Cleaning(object):
         indsDel = els.index
 
         for i in range (len(indsDel)):
-            resCol = resCol.drop(labels=[int(indsDel[i])])
+            resCol = resCol.drop(labels=[(indsDel[i])])     # int ??
 
         return resCol
 
@@ -338,7 +341,7 @@ class Cleaning(object):
         ids = []
         cnt = len(col)
 
-        for i in range(cnt+1):#################################
+        for i in range(cnt):
             if col[i] != col[i]:
                 ids.append(i)
 
@@ -404,7 +407,7 @@ class Cleaning(object):
         #print(left, right)
         #print()
 
-        for i in range (n+1):################################################
+        for i in range (n):
             if(col[i] < left or col[i] > right):
                 ej[col.index[i].__str__()] = col[i]
 
@@ -731,14 +734,14 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
-print(df)
+#print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
+ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-#ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
+#ser = pd.Series([7,8,9,12,500,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
+#ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
 print(ser)
 print()
 
@@ -749,5 +752,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.dataStandardization())
+print(DP.findEjections())
 #print(Statistics.isEqDF(df,df2))
