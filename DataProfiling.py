@@ -617,7 +617,7 @@ class Statistics(object):
                 nums[str(el)] = 1
 
         plt.hist(col)
-        plt.show()
+        #plt.show()                 tests
 
         return nums
 
@@ -730,7 +730,7 @@ df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 #d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-d = {"price":[1, 2, 3, 4, 5], "count": [2, 2, 1, 3, 4], "percent": [24, 51, 0, 0, 24]}
+d = {"price":[1, 2, 3, np.nan, 5], "count": [2, 2, 1, 3, 4], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -751,5 +751,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-#print(DP.distributionFunc())
+print(DP.findSkipsDF())
 #print(DataProfiling.isColIncludedInCol(ser,ser1))

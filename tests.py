@@ -8,6 +8,74 @@ import unittest
 from DataProfiling import DataProfiling
 
 
+
+# class Cleaning
+
+class findSkipsDFTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findSkipsDF()
+        expRes = pd.Series([])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSkips(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 0, np.nan, 5], "count": [0, 4, 0, 3, 1], "percent": [np.nan, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findSkipsDF()
+        expRes = pd.Series([{'price': 3}, {'percent': 0}])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findSkipsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findSkipsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.findSkipsDF()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
+
+
+
+
 # class Statistics
 
 class distributionFuncTests(unittest.TestCase):
@@ -461,6 +529,6 @@ ser = pd.Series([-200, 0, 24, np.nan, 150, 62, 24], ['a', 'b', 'c', 'd', 'e', 'f
 DP.__setSeries__(ser
 d = {"price": [1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
 df = pd.DataFrame(d)
-DP.__setDF__(df
+DP.__setDF__(df)
 result = DP.maxValue()
 self.assertEqual(result, 150)'''
