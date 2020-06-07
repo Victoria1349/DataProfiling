@@ -454,10 +454,6 @@ class cleanNullsDFTests(unittest.TestCase):
         d = {"price": [1, 2, 10, 5], "count": [0, 4, 0, 1], "percent": [8, 51, 0, 4]}
         expRes = pd.DataFrame(d)
 
-        print()
-        print(res)
-        print(expRes)
-
         if DataProfiling.isEqDF(res, expRes):
             result = True
         else:
@@ -517,8 +513,6 @@ class findNullsSerTests(unittest.TestCase):
 
         res = DP.findNullsSer()
         expRes = list([1,5])
-        print(res)
-        print(expRes)
         if res == expRes:
             result = True
         else:
@@ -701,6 +695,211 @@ class cntOfSkipDataInColumnTests(unittest.TestCase):
 
         result = DP.cntOfSkipDataInColumn()
         self.assertEqual(result, 0)
+
+
+class fillMissingDataTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 4, 5], "count": [10, 4, 10, 3, 1], "percent": [24, 51, 10, 10, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.fillMissingData()
+        expRes = pd.DataFrame(d)
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 20, 0, 4, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.fillMissingData()
+        d = {"price": [1.0, 2.0, 10.0, 5.0, 4.5], "count": [0.0, 4.0, 0.0, 1.0, 1.25], "percent": [8.0, 20.0, 0.0, 4.0, 8.0]}
+        expRes = pd.DataFrame(d)
+
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.fillMissingData()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.fillMissingData()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.fillMissingData()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
+class replacementMissingsTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 4, 5], "count": [10, 4, 10, 3, 1], "percent": [24, 51, 10, 10, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.replacementMissings(1)
+        expRes = pd.DataFrame(d)
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someNulls(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 20, 0, 4, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.replacementMissings(1)
+        d = {"price": [1.0, 2.0, 10.0, 5.0, 1.0], "count": [0.0, 4.0, 0.0, 1.0, 1.0], "percent": [1.0, 20.0, 0.0, 4.0, 1.0]}
+        expRes = pd.DataFrame(d)
+
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.replacementMissings(1)
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.replacementMissings(1)
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.replacementMissings(1)
+        result = res.empty
+        self.assertEqual(result, True)
+
+
+class delDuplicatesTests(unittest.TestCase):
+
+    def test_allDiff(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 10, 4, 5], "count": [10, 4, 10, 3, 1], "percent": [24, 51, 10, 10, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        expRes = pd.DataFrame(d)
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        d = {"price":[1, 2, 0, 4], "count": [0, np.nan, 0, 3], "percent": [24, 51, 0, 0]}
+        expRes = pd.DataFrame(d)
+
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        d = {"price":[1, 1, 1, 1, 1], "count": [0, 0, 0, 0, 0], "percent": [24, 24, 24, 24, 24]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        d = {"price": [1], "count": [0], "percent": [24]}
+        expRes = pd.DataFrame(d)
+
+        if DataProfiling.isEqDF(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.delDuplicates()
+        result = res.empty
+        self.assertEqual(result, True)
 
 
 

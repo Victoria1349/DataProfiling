@@ -139,11 +139,11 @@ class DataProfiling(object):
     def fillMissingData(self):
         return Cleaning.fillMissingData(self.data)
 
-    def delDuplicates(self):
-        return Cleaning.delDuplicates(self.data)
-
     def replacementMissings(self, cnt):
         return Cleaning.replacementMissings(self.data, cnt)
+
+    def delDuplicates(self):
+        return Cleaning.delDuplicates(self.data)
 
 
 
@@ -735,9 +735,11 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-#d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+d = {"price":[1, 1, 1, 1, 1], "count": [0, 0, 0, 0, 0], "percent": [24, 24, 24, 24, 24]}
+#d = {"price": [1, 2, 10, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 20, 0, 4, np.nan]}
 #d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
-d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+#d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -760,5 +762,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.cntOfSkipDataInColumn())
+print(DP.delDuplicates())
 #print(DataProfiling.isEqSer(ser,ser1))
