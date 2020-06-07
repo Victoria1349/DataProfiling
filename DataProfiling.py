@@ -562,7 +562,7 @@ class Cleaning(object):
         return resCol
 
     def cntOfSkipDataInDF(data):
-        df = Cleaning.findSkips(data)
+        df = Cleaning.findSkipsDF(data)
         numb = len(df)
         return numb
 
@@ -736,7 +736,8 @@ df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 #d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
+#d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
+d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
 df = pd.DataFrame(d)
 print(df)
 
@@ -759,5 +760,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.findNullsSer())
+print(DP.cntOfSkipDataInDF())
 #print(DataProfiling.isEqSer(ser,ser1))
