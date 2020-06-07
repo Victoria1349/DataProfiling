@@ -6,7 +6,6 @@ import seaborn as sns
 import math
 import unittest
 from DataProfiling import DataProfiling
-from DataProfiling import Statistics
 
 
 # class Statistics
@@ -20,7 +19,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([1,1,1,1,1,1], [-200,0,2,42,62,150])
-        if Statistics.isEqSer(res, expRes):
+        if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -33,7 +32,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([1, 2, 2, 1], [-200, 0, 24, 150])
-        if Statistics.isEqSer(res, expRes):
+        if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -46,7 +45,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([7], [150])
-        if Statistics.isEqSer(res, expRes):
+        if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
             result = False
