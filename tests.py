@@ -10,6 +10,390 @@ from DataProfiling import PairsInRelations
 
 
 
+# class Profiling
+
+class dataTypeTests(unittest.TestCase):
+
+    def test_diff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, '150', 62, '24'])
+        DP.__setSeries__(ser)
+
+        result = str(DP.dataType())
+        self.assertEqual(result, 'object')
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 12, 0, -200, -5, -12, 3])
+        DP.__setSeries__(ser)
+
+        result = DP.dataType()
+        self.assertEqual(result, 'int64')
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.dataType()
+        print()
+        print(res)
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.dataType()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.dataType()
+        if str(res) == str(np.nan): # hack of checking empty data
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class findMistakesTests(unittest.TestCase):
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 12, 0, -200, -5, -12, 3])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someMist(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, '150', 62, '24'])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series(['150', '24'], [4, 6])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_twoDiff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 'np.nan', '150', '24'])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.findMistakes()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class cntOfOneValueInColumnTests(unittest.TestCase):
+
+    def test_allDiff(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 3, 4, 5], "count": [6, 7, 8, 9, 10], "percent": [11, 12, 13, 14, 15]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        expRes = pd.Series([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someEq(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 3, 3, 5], "count": [6, 6, 8, 9, 10], "percent": [10, 12, 13, 13, 15]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        expRes = pd.Series([2,2,2,2,1,1,1,1,1,1,1], [13, 10, 6, 3, 1, 2, 5, 8, 9, 12, 15])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_allEq(self):
+        DP = DataProfiling()
+        d = {"price": [2, 2, 2, 2, 2], "count": [2, 2, 2, 2, 2], "percent": [2, 2, 2, 2, 2]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        expRes = pd.Series([15], [2])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.cntOfOneValueInColumn()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
+class dataStandardizationTests(unittest.TestCase):
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([5,5,5,5,5])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series([np.nan,np.nan,np.nan,np.nan,np.nan])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_allDiff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-10, 0, 10, 5])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series([-1.52, -0.17, 1.18, 0.51])
+
+        print()
+        print()
+        print(res)
+        print(expRes)
+        print(DataProfiling.isEqSer(res, expRes))
+
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-10, 0, 10, 0])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series([-1.41, 0.0, 1.41, 0.0])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.dataStandardization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
+class dataNormalizationTests(unittest.TestCase):
+
+    def test_allSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([5,5,5,5,5])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series([np.nan,np.nan,np.nan,np.nan,np.nan])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_allDiff(self):
+        DP = DataProfiling()
+        ser = pd.Series([-10, 0, 10, 5])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series([0, 0.5, 1, 0.75])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSame(self):
+        DP = DataProfiling()
+        ser = pd.Series([-10, 0, 10, 0])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series([0, 0.5, 1, 0.5])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan,np.nan,np.nan,np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.dataNormalization()
+        expRes = pd.Series()
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+
 # class Cleaning
 
 class findSkipsDFTests(unittest.TestCase):

@@ -74,18 +74,24 @@ class DataProfiling(object):
         return Profiling.findMistakes(resCol)
 
     def cntOfOneValueInColumn(self):
+        if len(self.data) == 0:
+            return pd.DataFrame()
         return Profiling.cntOfOneValueInColumn(self.data)
 
     def dataStandardization(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
         resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        if len(resCol) == 0:
+            return pd.Series()
         return Profiling.dataStandardization(resCol)
 
     def dataNormalization(self):
-        resCol = self.col
+        resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
         resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        if len(resCol) == 0:
+            return pd.Series()
         return Profiling.dataNormalization(resCol)
 
 
@@ -305,6 +311,8 @@ class DataProfiling(object):
 class Profiling(object):
 
     def dataType(col):
+        if len(col) == 0:
+            return np.nan
         return col.dtypes
 
     def findMistakes(col):
@@ -339,7 +347,7 @@ class Profiling(object):
 
             if cntMax > 1:
                 print("There are", cntMax, "peer values")
-                return
+                return resCol
 
             maxType = types.index[indMax]
 
@@ -358,29 +366,29 @@ class Profiling(object):
         return data.stack().value_counts()
 
     def dataStandardization(col):
-        mean = Statistics.meanValue(col)
+        resCol = col.astype('float')
+        mean = Statistics.meanValue(resCol)
         sumX = 0
-        for i in range (len(col)):
-            if DataProfiling.isElInCol(list(col.index), i):
-                sumX = sumX + ((col[i] - mean) * (col[i] - mean))
-        standard_deviation = np.math.sqrt(sumX / len(col))
+        for i in range (len(resCol)):
+            if DataProfiling.isElInCol(list(resCol.index), i):
+                sumX = sumX + ((resCol[i] - mean) * (resCol[i] - mean))
+        standard_deviation = np.math.sqrt(sumX / len(resCol))
 
-        for i in range (len(col)):
-            if DataProfiling.isElInCol(list(col.index), i):
-                col[i] = (col[i] - mean) / standard_deviation
+        for i in range (len(resCol)):
+            if DataProfiling.isElInCol(list(resCol.index), i):
+                resCol[i] = round((resCol[i] - mean) / standard_deviation, 2)
 
-        return col
+        return resCol
 
     def dataNormalization(col):
-        resCol = col
+        resCol = col.astype('float')
         min = Statistics.minValue(resCol)
         max = Statistics.maxValue(resCol)
         i = 0
 
-        for el in col:
-            if el == el:
-                tmp = (el - min) / (max - min)
-                resCol[resCol.index[i]] = tmp
+        for el in resCol:
+            tmp = (el - min) / (max - min)
+            resCol[resCol.index[i]] = round(tmp, 2)
             i = i + 1
 
         return resCol
@@ -747,7 +755,7 @@ d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1,
 #d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
 #d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
 df = pd.DataFrame(d)
-print(df)
+#print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
@@ -755,9 +763,10 @@ print(df)
 #ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-ser = pd.Series([-20, 0, 20, 0, 15, np.nan, 42, -200, 12, 45, 10, 10, 0, 22])
+#ser = pd.Series([-20, 0, 20, 0, 15, np.nan, '42', -200, 12, 45, 10, 10, 0, 22])
+ser = pd.Series([-10, 0, 10, 5])
 #ser = pd.Series()
-#print(ser)
+print(ser)
 
 print()
 
@@ -768,11 +777,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.relationsDetection())
+print(DP.dataStandardization())
 #print(DataProfiling.isEqSer(ser,ser1))
-
-'''t1 = PairsInRelations()
-t2 = PairsInRelations()
-t1.setter('p','c')
-t2.setter('p','c')
-print(PairsInRelations.isEq(t1,t2))'''
