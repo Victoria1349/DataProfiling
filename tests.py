@@ -258,11 +258,11 @@ class findEjectionsTests(unittest.TestCase):
 
     def test_full(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -20, 12, 4, 10, 10, 0, 22])
         DP.__setSeries__(ser)
 
         res = DP.findEjections()
-        expRes = pd.Series([])
+        expRes = pd.Series([],[])
         if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
@@ -271,14 +271,12 @@ class findEjectionsTests(unittest.TestCase):
 
     def test_someSkips(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -200, 12, 450, 10, 10, 0, 22])
         DP.__setSeries__(ser)
 
         res = DP.findEjections()
-        expRes = list([3,5])
-        print(res)
-        print(expRes)
-        if res == expRes:
+        expRes = pd.Series([-200, 450],[7, 9])
+        if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -290,7 +288,7 @@ class findEjectionsTests(unittest.TestCase):
         DP.__setSeries__(ser)
 
         res = DP.findEjections()
-        result = len(res) == 0
+        result = str(type(res)) == "<class 'NoneType'>"
         self.assertEqual(result, True)
 
     def test_nulls(self):
@@ -299,7 +297,7 @@ class findEjectionsTests(unittest.TestCase):
         DP.__setSeries__(ser)
 
         res = DP.findEjections()
-        result = len(res) == 0
+        result = str(type(res)) == "<class 'NoneType'>"
         self.assertEqual(result, True)
 
     def test_nans(self):
@@ -308,11 +306,11 @@ class findEjectionsTests(unittest.TestCase):
         DP.__setSeries__(ser)
 
         res = DP.findEjections()
-        result = len(res) == 0
+        result = str(type(res)) == "<class 'NoneType'>"
         self.assertEqual(result, True)
 
 
-class cleanSkipsSerTests(unittest.TestCase):
+'''class cleanSkipsSerTests(unittest.TestCase):
 
     def test_full(self):
         DP = DataProfiling()
@@ -366,7 +364,7 @@ class cleanSkipsSerTests(unittest.TestCase):
 
         res = DP.cleanSkipsSer()
         result = res.empty
-        self.assertEqual(result, True)
+        self.assertEqual(result, True)'''
 
 
 
