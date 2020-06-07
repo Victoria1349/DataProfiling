@@ -759,5 +759,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.findNullsDF())
+print(DP.cleanNullsDF())
 #print(DataProfiling.isEqSer(ser,ser1))

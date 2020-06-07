@@ -427,12 +427,12 @@ class findNullsDFTests(unittest.TestCase):
         result = res.empty
         self.assertEqual(result, True)
 
-'''
+
 class cleanNullsDFTests(unittest.TestCase):
 
     def test_full(self):
         DP = DataProfiling()
-        d = {"price": [1, 2, 0, 4, 5], "count": [0, 4, 0, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        d = {"price": [1, 2, 10, 4, 5], "count": [10, 4, 10, 3, 1], "percent": [24, 51, 10, 10, 4]}
         df = pd.DataFrame(d)
         DP.__setDF__(df)
 
@@ -446,12 +446,12 @@ class cleanNullsDFTests(unittest.TestCase):
 
     def test_someNulls(self):
         DP = DataProfiling()
-        d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [8, 51, 0, 4, np.nan]}
+        d = {"price": [1, 2, 10, 5, 0], "count": [0, 4, 0, 1, 0], "percent": [8, 51, 0, 4, 0]}
         df = pd.DataFrame(d)
         DP.__setDF__(df)
 
         res = DP.cleanNullsDF()
-        d = {"price": [1.0, 2.0, 0.0, 5.0], "count": [0.0, 4.0, 0.0, 1.0], "percent": [8.0, 51.0, 0.0, 4.0]}
+        d = {"price": [1, 2, 10, 5], "count": [0, 4, 0, 1], "percent": [8, 51, 0, 4]}
         expRes = pd.DataFrame(d)
 
         print()
@@ -495,6 +495,7 @@ class cleanNullsDFTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
+'''
 class findNullsSerTests(unittest.TestCase):
 
     def test_full(self):
