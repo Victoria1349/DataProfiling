@@ -306,7 +306,7 @@ class Cleaning(object):
         resCol = col
         indsDel = els.index
 
-        for i in range (len(indsDel)+1):############################################
+        for i in range (len(indsDel)):
             resCol = resCol.drop(labels=[indsDel[i]])
 
         return resCol
@@ -630,7 +630,7 @@ class Structures(object):
     def isElInCol(col, el):
         isInCol = False
 
-        for i in range (len(col)+1):##################################
+        for i in range (len(col)):
             if col[i] == el:
                 isInCol = True
 
@@ -729,8 +729,6 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
-d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-df2 = pd.DataFrame(d)
 print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
@@ -739,7 +737,6 @@ print(df)
 #ser = pd.Series([7,8,9,12,14], ['a', 'd', 'e', 'j', 'i'])
 #ser = pd.Series([7,7,7,8,0,12,12,'13',14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
 ser = pd.Series([-200, 0, 2, np.nan, 150, 62, 42])
-ser2 = pd.Series([-200, 0, 2, np.nan, 150, 62, 24])
 print(ser)
 print()
 
@@ -750,5 +747,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-#print(DP.distributionFunc())
-print(Statistics.isEqDF(df,df2))
+print(DP.distributionFunc())
+#print(Statistics.isEqDF(df,df2))

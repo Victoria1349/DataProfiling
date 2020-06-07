@@ -6,6 +6,7 @@ import seaborn as sns
 import math
 import unittest
 from DataProfiling import DataProfiling
+from DataProfiling import Statistics
 
 
 # class Statistics
@@ -18,25 +19,38 @@ class distributionFuncTests(unittest.TestCase):
         DP.__setSeries__(ser)
 
         res = DP.distributionFunc()
-        expRes = pd.Series([1,1,1,1,1,1], [-200,0,2,24,62,150])
-        #if
-        self.assertEqual(result, 0)
+        expRes = pd.Series([1,1,1,1,1,1], [-200,0,2,42,62,150])
+        if Statistics.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
 
     def test_someSame(self):
         DP = DataProfiling()
         ser = pd.Series([-200, 0, 24, np.nan, 150, 0, 24])
         DP.__setSeries__(ser)
 
-        result = DP.distributionFunc()
-        self.assertEqual(result, pd.Series())
+        res = DP.distributionFunc()
+        expRes = pd.Series([1, 2, 2, 1], [-200, 0, 24, 150])
+        if Statistics.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
 
     def test_allSame(self):
         DP = DataProfiling()
         ser = pd.Series([150, 150, 150, 150, 150, 150, 150])
         DP.__setSeries__(ser)
 
-        result = DP.distributionFunc()
-        self.assertEqual(result, pd.Series())
+        res = DP.distributionFunc()
+        expRes = pd.Series([7], [150])
+        if Statistics.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
 
     def test_empty(self):
         DP = DataProfiling()
