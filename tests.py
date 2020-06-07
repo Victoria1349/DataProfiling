@@ -254,6 +254,121 @@ class cleanSkipsSerTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
+class findEjectionsTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.findEjections()
+        expRes = pd.Series([])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSkips(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.findEjections()
+        expRes = list([3,5])
+        print(res)
+        print(expRes)
+        if res == expRes:
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.findEjections()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.findEjections()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan, np.nan, np.nan, np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.findEjections()
+        result = len(res) == 0
+        self.assertEqual(result, True)
+
+
+class cleanSkipsSerTests(unittest.TestCase):
+
+    def test_full(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanSkipsSer()
+        expRes = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_someSkips(self):
+        DP = DataProfiling()
+        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanSkipsSer()
+        expRes = pd.Series([-200, 0, 2, 150, np.nan, 24])
+
+        if DataProfiling.isEqSer(res, expRes):
+            result = True
+        else:
+            result = False
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        ser = pd.Series([])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanSkipsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        ser = pd.Series([0,0,0,0])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanSkipsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        ser = pd.Series([np.nan, np.nan, np.nan, np.nan])
+        DP.__setSeries__(ser)
+
+        res = DP.cleanSkipsSer()
+        result = res.empty
+        self.assertEqual(result, True)
+
+
 
 
 

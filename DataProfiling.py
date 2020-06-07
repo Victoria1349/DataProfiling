@@ -244,7 +244,7 @@ class DataProfiling(object):
         indsDel = els.index
 
         for i in range (len(indsDel)):
-            resCol = resCol.drop(labels=[(indsDel[i])])     # int ???????????????
+            resCol = resCol.drop(labels=[int(indsDel[i])])     # int ???????????????
 
         return resCol
 
@@ -463,7 +463,7 @@ class Cleaning(object):
 
         #iqr = col2[indIqr - 1]
         iqr = q3 - q1
-        #print(q1, q3, iqr)
+        #print(q1, q3, iqr, "!!!")
 
         left = q1 - iqr*1.5
         right = q3 + iqr*1.5
@@ -471,8 +471,8 @@ class Cleaning(object):
         #print()
 
         for i in range (n):
-            if(col[i] < left or col[i] > right):
-                ej[col.index[i].__str__()] = col[i]
+            if(col2[i] < left or col2[i] > right):
+                ej[col[col == col2[i]].index[0].__str__()] = col2[i]
 
         return ej
 
@@ -737,10 +737,10 @@ print(df)
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
+#ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#ser1 = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
+ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -200, 12, 45, 10, 10, 0, 22])
 print(ser)
 
 print()
@@ -752,5 +752,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-#print(DP.findSkipsSer())
-print(DataProfiling.isEqSer(ser,ser1))
+print(DP.findEjections())
+#print(DataProfiling.isEqSer(ser,ser1))
