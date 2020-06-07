@@ -288,7 +288,7 @@ class DataProfiling(object):
         if len(col1) != len(col2):
             return False
 
-        for i in range (len(col1)+1):
+        for i in range (len(col1)):
             if DataProfiling.isElInCol(list(col1.index), i) and DataProfiling.isElInCol(list(col2.index), i) and col1[i] != col2[i]:
                 return False
 
@@ -730,16 +730,17 @@ df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 #d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-d = {"price":[1, 2, 3, np.nan, 5], "count": [2, 2, 1, 3, 4], "percent": [24, 51, 0, 0, 24]}
+d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
 df = pd.DataFrame(d)
 print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
 #ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-ser = pd.Series([7,8,9,12,13,14], ['a', 'd', 'e', 'j', 'i', 'g'])
+ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
+ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#ser = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
+#ser1 = pd.Series([-200, 0, 2, np.nan, 150, 62, '42'])
 print(ser)
 
 print()
@@ -751,5 +752,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.findSkipsDF())
-#print(DataProfiling.isColIncludedInCol(ser,ser1))
+#print(DP.findSkipsSer())
+print(DataProfiling.isEqSer(ser,ser1))
