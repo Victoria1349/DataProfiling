@@ -723,6 +723,11 @@ class PairsInRelations(object):
         self.key = key
         self.col = col
 
+    def isEq(p1, p2):
+        if str(p1.key) == str(p2.key) and str(p1.col) == str(p2.col):
+            return True
+        return False
+
 # ------------------------------------------------------------------------------------------------
 
 '''data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
@@ -735,8 +740,9 @@ df = pd.read_csv(StringIO(data))
 df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
 df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
-d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-d = {"price":[1, 1, 1, 1, 1], "count": [0, 0, 0, 0, 0], "percent": [24, 24, 24, 24, 24]}
+#d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 4, 3, 1], "percent": [2, 4, 4, 3, 1]}
+d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1, 2]}
+#d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 #d = {"price": [1, 2, 10, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 20, 0, 4, np.nan]}
 #d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
 #d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
@@ -762,5 +768,11 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.delDuplicates())
+print(DP.relationsDetection())
 #print(DataProfiling.isEqSer(ser,ser1))
+
+'''t1 = PairsInRelations()
+t2 = PairsInRelations()
+t1.setter('p','c')
+t2.setter('p','c')
+print(PairsInRelations.isEq(t1,t2))'''

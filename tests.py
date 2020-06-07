@@ -6,6 +6,7 @@ import seaborn as sns
 import math
 import unittest
 from DataProfiling import DataProfiling
+from DataProfiling import PairsInRelations
 
 
 
@@ -1345,6 +1346,122 @@ class medianTests(unittest.TestCase):
             result = True
         else:
             result = False
+        self.assertEqual(result, True)
+
+
+# class Structures
+
+class relationsDetectionTests(unittest.TestCase):
+
+    def test_noRels(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 4, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        expRes = list()
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
+        self.assertEqual(result, True)
+
+    def test_someRels(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [24, 51, 0, 0, 4]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        tmp = PairsInRelations()
+        tmp.setter('price', 'count')
+        expRes = list()
+        expRes.append(tmp)
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
+        self.assertEqual(result, True)
+
+    def test_allRels(self):
+        DP = DataProfiling()
+        d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1, 2]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        tmp = PairsInRelations()
+        tmp.setter('percent', 'price')
+        expRes = list()
+        expRes.append(tmp)
+        tmp1 = PairsInRelations()
+        tmp1.setter('price', 'count')
+        expRes.append(tmp1)
+        tmp2 = PairsInRelations()
+        tmp2.setter('percent', 'count')
+        expRes.append(tmp2)
+        tmp3 = PairsInRelations()
+        tmp3.setter('price', 'percent')
+        expRes.append(tmp3)
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
+        self.assertEqual(result, True)
+
+    def test_empty(self):
+        DP = DataProfiling()
+        d = {}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        expRes = list()
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
+        self.assertEqual(result, True)
+
+    def test_nulls(self):
+        DP = DataProfiling()
+        d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        expRes = list()
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
+        self.assertEqual(result, True)
+
+    def test_nans(self):
+        DP = DataProfiling()
+        d = {"price": [np.nan, np.nan, np.nan], "count": [np.nan, np.nan, np.nan], "percent": [np.nan, np.nan, np.nan]}
+        df = pd.DataFrame(d)
+        DP.__setDF__(df)
+
+        res = DP.relationsDetection()
+        expRes = list()
+
+        result = True
+        for i in range(len(res)):
+            if not PairsInRelations.isEq(res[i], expRes[i]):
+                result = False
+
         self.assertEqual(result, True)
 
 
