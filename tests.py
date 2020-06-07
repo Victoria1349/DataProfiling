@@ -256,7 +256,7 @@ class cleanSkipsSerTests(unittest.TestCase):
 
 class findEjectionsTests(unittest.TestCase):
 
-    def test_full(self):
+    def test_noEj(self):
         DP = DataProfiling()
         ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -20, 12, 4, 10, 10, 0, 22])
         DP.__setSeries__(ser)
@@ -269,7 +269,7 @@ class findEjectionsTests(unittest.TestCase):
             result = False
         self.assertEqual(result, True)
 
-    def test_someSkips(self):
+    def test_someEj(self):
         DP = DataProfiling()
         ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -200, 12, 450, 10, 10, 0, 22])
         DP.__setSeries__(ser)
@@ -310,28 +310,28 @@ class findEjectionsTests(unittest.TestCase):
         self.assertEqual(result, True)
 
 
-'''class cleanSkipsSerTests(unittest.TestCase):
+class cleanEjectionsTests(unittest.TestCase):
 
-    def test_full(self):
+    def test_noEj(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        ser = pd.Series([-20, 0, 20, 0, 15, 6, 42, -20, 12, 4, 10, 10, 0, 22])
         DP.__setSeries__(ser)
 
-        res = DP.cleanSkipsSer()
-        expRes = pd.Series([-200, 0, 2, 0, 150, 62, 24])
+        res = DP.cleanEjections()
+        expRes = pd.Series([-20, 0, 20, 0, 15, 6, 42, -20, 12, 4, 10, 10, 0, 22])
         if DataProfiling.isEqSer(res, expRes):
             result = True
         else:
             result = False
         self.assertEqual(result, True)
 
-    def test_someSkips(self):
+    def test_someEj(self):
         DP = DataProfiling()
-        ser = pd.Series([-200, 0, 2, np.nan, 150, np.nan, 24])
+        ser = pd.Series([-20, 0, 20, 0, 15, 6, 42, -200, 12, 4, 10, 10, 0, 22])
         DP.__setSeries__(ser)
 
-        res = DP.cleanSkipsSer()
-        expRes = pd.Series([-200, 0, 2, 150, np.nan, 24])
+        res = DP.cleanEjections()
+        expRes = pd.Series([-20, 0, 20, 0, 15, 6, 42, 12, 4, 10, 10, 0, 22], [0,1,2,3,4,5,6,8,9,10,11,12,13])
 
         if DataProfiling.isEqSer(res, expRes):
             result = True
@@ -344,8 +344,8 @@ class findEjectionsTests(unittest.TestCase):
         ser = pd.Series([])
         DP.__setSeries__(ser)
 
-        res = DP.cleanSkipsSer()
-        result = res.empty
+        res = DP.cleanEjections()
+        result = str(type(res)) == "<class 'NoneType'>"
         self.assertEqual(result, True)
 
     def test_nulls(self):
@@ -353,8 +353,8 @@ class findEjectionsTests(unittest.TestCase):
         ser = pd.Series([0,0,0,0])
         DP.__setSeries__(ser)
 
-        res = DP.cleanSkipsSer()
-        result = res.empty
+        res = DP.cleanEjections()
+        result = str(type(res)) == "<class 'NoneType'>"
         self.assertEqual(result, True)
 
     def test_nans(self):
@@ -362,9 +362,9 @@ class findEjectionsTests(unittest.TestCase):
         ser = pd.Series([np.nan, np.nan, np.nan, np.nan])
         DP.__setSeries__(ser)
 
-        res = DP.cleanSkipsSer()
-        result = res.empty
-        self.assertEqual(result, True)'''
+        res = DP.cleanEjections()
+        result = str(type(res)) == "<class 'NoneType'>"
+        self.assertEqual(result, True)
 
 
 

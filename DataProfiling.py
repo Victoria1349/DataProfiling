@@ -114,6 +114,8 @@ class DataProfiling(object):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
         resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        if len(resCol) == 0:
+            return
         return Cleaning.cleanEjections(resCol)
 
     def findNullsDF(self):
@@ -482,8 +484,10 @@ class Cleaning(object):
         delEl = Cleaning.findEjections(col)
         resCol = col
 
-        for i in range (len(delEl)):
-            resCol = resCol.drop(labels=delEl.index[i])
+        resCol = DataProfiling.cleanElsFromSer(delEl, resCol)
+
+        '''for i in range (len(delEl)):
+            resCol = resCol.drop(labels=delEl.index[i])'''
 
         return resCol
 
@@ -742,9 +746,9 @@ df = pd.DataFrame(d)
 #ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
 #ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#ser = pd.Series([-20, 0, 20, np.nan, 15, 6, '42', -200, 12, 45, 10, 10, 0, 22])
-ser = pd.Series()
-#print(ser)
+ser = pd.Series([-20, 0, 20, 0, 15, 6, 42, -200, 12, 45, 10, 10, 0, 22])
+#ser = pd.Series()
+print(ser)
 
 print()
 
@@ -755,5 +759,5 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
-print(DP.findEjections())
+print(DP.cleanEjections())
 #print(DataProfiling.isEqSer(ser,ser1))
