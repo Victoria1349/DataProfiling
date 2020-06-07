@@ -438,7 +438,7 @@ class Cleaning(object):
         ids = []
         cnt = len(col)
 
-        for i in range (cnt+1):######################################
+        for i in range (cnt):
             if Cleaning.isNull(col[i]):
                 ids.append(col.index[i])
 
@@ -546,7 +546,21 @@ class Statistics(object):
 
     def isEqDF(df1, df2):
 
-        return
+        if df1.shape[0]*df1.shape[1] != df2.shape[0]*df2.shape[1] or df1.shape[0] != df2.shape[0] or df1.shape[1] != df2.shape[1]:
+            return False
+
+        cols1 = list(df1)
+        cols2 = list(df2)
+
+        if cols1 != cols2:
+            return False
+
+        for col in cols1:
+            for i in range(df1.shape[0]):
+                if str(df1[col][i]) != str(df2[col][i]):
+                    return False
+
+        return True
 
     def isEqSer(ser1, ser2):
         col1 = Cleaning.cleanSkipsSer(ser1)
@@ -715,6 +729,8 @@ df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
 
 d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
 df = pd.DataFrame(d)
+d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
+df2 = pd.DataFrame(d)
 print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
@@ -735,4 +751,4 @@ print("--")
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
 #print(DP.distributionFunc())
-print(Statistics.isEqSer(ser,ser2))
+print(Statistics.isEqDF(df,df2))
