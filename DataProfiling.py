@@ -732,34 +732,11 @@ class SecondaryFuncs(object):
 
 # ------------------------------------------------------------------------------------------------
 
-'''data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
-df = pd.read_csv(StringIO(data))
-df.loc[3] = {'price': 4, 'count': 40, 'percent': 26.3}
-df.loc[4] = {'price': 4, 'count': 50, 'percent': 26.3}'''
-
-'''data = 'price,count,percent\n1,2,2\n2,3,4\n3,1,5'
-df = pd.read_csv(StringIO(data))
-df.loc[3] = {'price': 4, 'count': 5, 'percent': 5}
-df.loc[4] = {'price': 5, 'count': 4, 'percent': 2}'''
-
-#d = {"price":[1, 2, 3, 4, 5], "count": [2, 4, 4, 3, 1], "percent": [2, 4, 4, 3, 1]}
 d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1, 2]}
-#d = {"price":[1, 2, 0, 4, 1], "count": [0, np.nan, 0, 3, 0], "percent": [24, 51, 0, 0, 24]}
-#d = {"price": [1, 2, 10, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 20, 0, 4, np.nan]}
-#d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
-#d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
 df = pd.DataFrame(d)
-#print(df)
+print(df)
 
-#ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
-#ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
-#ser = pd.Series([-200, 0, '24.0', 'np.nan', 150, 62, 24.0], ['a', 'b', 'c', 'd', 'e', 'f', 'j'])
-#ser = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
-#ser1 = pd.Series([7,8,9,12,np.nan,14], ['a', 'd', 'e', 'j', 'i', 'g'])
-#ser = pd.Series([7,7,7,8,9,12,12,13,14], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i'])
-#ser = pd.Series([-20, 0, 20, 0, 15, np.nan, '42', -200, 12, 45, 10, 10, 0, 22])
 ser = pd.Series(['-10', '0', '10', '5'])
-#ser = pd.Series()
 print(ser)
 
 DP = DataProfiling()
@@ -769,5 +746,3 @@ print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 print(DP.maxValue())
-#print(DP.dataStandardization())
-#print(SecondaryFuncs.isEqSer(ser,ser1))
