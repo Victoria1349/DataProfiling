@@ -81,7 +81,7 @@ class DataProfiling(object):
     def dataStandardization(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         if len(resCol) == 0:
             return pd.Series()
         return Profiling.dataStandardization(resCol)
@@ -89,7 +89,7 @@ class DataProfiling(object):
     def dataNormalization(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         if len(resCol) == 0:
             return pd.Series()
         return Profiling.dataNormalization(resCol)
@@ -111,7 +111,7 @@ class DataProfiling(object):
     def findEjections(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         if len(resCol) == 0:
             return
         return Cleaning.findEjections(resCol)
@@ -119,7 +119,7 @@ class DataProfiling(object):
     def cleanEjections(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         if len(resCol) == 0:
             return
         return Cleaning.cleanEjections(resCol)
@@ -156,42 +156,42 @@ class DataProfiling(object):
     def distributionFunc(self):
         resCol = self.col
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.distributionFunc(resCol)
 
     def frequencyFunc(self):
         delEls = Profiling.findMistakes(self.col)
-        col2 = DataProfiling.cleanElsFromSer(delEls, self.col)
+        col2 = SecondaryFuncs.cleanElsFromSer(delEls, self.col)
         return Statistics.frequencyFunc(col2)
 
     def moda(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.moda(resCol)
 
     def maxValue(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.maxValue(resCol)
 
     def minValue(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.minValue(resCol)
 
     def meanValue(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.meanValue(resCol)
 
     def median(self):
         resCol = self.cleanSkipsSer()
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         return Statistics.median(resCol)
 
 
@@ -207,7 +207,7 @@ class DataProfiling(object):
     def datasetVisualizationSer(self):                 # !!!!!
         resCol = self.col
         delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
         Vizual.datasetVisualizationSer(resCol)
 
 
@@ -217,92 +217,6 @@ class DataProfiling(object):
 
     def metadataReportSer(self, filename):
         Report.metadataReportSer(self.col, filename)
-
-
-    # -----------------
-
-    def isColIncludedInCol(inputCol, col):
-        isInCol = True
-
-        for i in range (len(inputCol)):
-            if DataProfiling.isElInCol(col, inputCol[i]) == False:
-                isInCol = False
-
-        return isInCol
-
-    def isElInCol(col, el):
-        isInCol = False
-
-        for i in range (len(col)):
-            if col[i] == el:
-                isInCol = True
-
-        return isInCol
-
-    def elType(el):
-        return type(el)
-
-    def isIndInCol(col, ind):
-        cnt = len(col)
-        for i in range (cnt):
-            if str(col.index[i]) == str(ind):
-                return True
-        return False
-
-    def cleanElsFromSer(els, col):
-        resCol = col
-        indsDel = els.index
-
-        for i in range (len(indsDel)):
-            resCol = resCol.drop(labels=[int(indsDel[i])])     # int ???????????????
-
-        return resCol
-
-    def isNull(cnt):
-        return cnt == 0
-
-    def sumSer(col):
-        resCol = Cleaning.cleanSkipsSer(col)
-        delEls = Profiling.findMistakes(resCol)
-        resCol = DataProfiling.cleanElsFromSer(delEls, resCol)
-
-        sum = 0
-
-        for el in resCol:
-            sum = sum + el
-
-        return sum
-
-    def isEqDF(df1, df2):
-
-        if df1.shape[0]*df1.shape[1] != df2.shape[0]*df2.shape[1] or df1.shape[0] != df2.shape[0] or df1.shape[1] != df2.shape[1]:
-            return False
-
-        cols1 = list(df1)
-        cols2 = list(df2)
-
-        if cols1 != cols2:
-            return False
-
-        for col in cols1:
-            for i in range(df1.shape[0]):
-                if str(df1[col][i]) != str(df2[col][i]):
-                    return False
-
-        return True
-
-    def isEqSer(ser1, ser2):
-        col1 = Cleaning.cleanSkipsSer(ser1)
-        col2 = Cleaning.cleanSkipsSer(ser2)
-
-        if len(col1) != len(col2):
-            return False
-
-        for i in range (len(col1)):
-            if DataProfiling.isElInCol(list(col1.index), i) and DataProfiling.isElInCol(list(col2.index), i) and col1[i] != col2[i]:
-                return False
-
-        return True
 
 
 # -----------------------------------------------------------------------------------------------
@@ -324,12 +238,12 @@ class Profiling(object):
 
             # counts of each type in column:
             for el in col:
-                tmpType = DataProfiling.elType(el)
+                tmpType = SecondaryFuncs.elType(el)
 
                 if len(types) == 0:
                     types[str(tmpType)] = 1
 
-                elif DataProfiling.isIndInCol(types, tmpType) == True:
+                elif SecondaryFuncs.isIndInCol(types, tmpType) == True:
                     types[str(tmpType)] = types[str(tmpType)] + 1
 
                 else:
@@ -354,7 +268,7 @@ class Profiling(object):
             # find indexes of mistakes values
             i = 0
             for el in col:
-                tmpType = DataProfiling.elType(el)
+                tmpType = SecondaryFuncs.elType(el)
 
                 if str(tmpType) != str(maxType):    # if that element not good
                     resCol[str(col.index[i])] = el
@@ -370,12 +284,12 @@ class Profiling(object):
         mean = Statistics.meanValue(resCol)
         sumX = 0
         for i in range (len(resCol)):
-            if DataProfiling.isElInCol(list(resCol.index), i):
+            if SecondaryFuncs.isElInCol(list(resCol.index), i):
                 sumX = sumX + ((resCol[i] - mean) * (resCol[i] - mean))
         standard_deviation = np.math.sqrt(sumX / len(resCol))
 
         for i in range (len(resCol)):
-            if DataProfiling.isElInCol(list(resCol.index), i):
+            if SecondaryFuncs.isElInCol(list(resCol.index), i):
                 resCol[i] = round((resCol[i] - mean) / standard_deviation, 2)
 
         return resCol
@@ -492,7 +406,7 @@ class Cleaning(object):
         delEl = Cleaning.findEjections(col)
         resCol = col
 
-        resCol = DataProfiling.cleanElsFromSer(delEl, resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEl, resCol)
 
         '''for i in range (len(delEl)):
             resCol = resCol.drop(labels=delEl.index[i])'''
@@ -506,7 +420,7 @@ class Cleaning(object):
 
         for col in data:
             for el in data[col]:
-                if DataProfiling.isNull(el):
+                if SecondaryFuncs.isNull(el):
                     d = {col: row}
                     rez[ind.__str__()] = d
                     ind = ind + 1
@@ -521,7 +435,7 @@ class Cleaning(object):
         cnt = len(col)
 
         for i in range (cnt):
-            if DataProfiling.isNull(col[i]):
+            if SecondaryFuncs.isNull(col[i]):
                 ids.append(col.index[i])
 
         return ids
@@ -539,7 +453,7 @@ class Cleaning(object):
             if len(rows) == 0:
                 rows[str(row)] = 1
 
-            elif DataProfiling.isIndInCol(rows, str(row)) == True:
+            elif SecondaryFuncs.isIndInCol(rows, str(row)) == True:
                 rows[str(row)] = rows[str(row)] + 1
 
             else:
@@ -624,7 +538,7 @@ class Statistics(object):
             if len(nums) == 0:
                 nums[str(el)] = 1
 
-            elif DataProfiling.isIndInCol(nums, str(el)) == True:
+            elif SecondaryFuncs.isIndInCol(nums, str(el)) == True:
                 nums[str(el)] = nums[str(el)] + 1
 
             else:
@@ -675,7 +589,7 @@ class Structures(object):
         for i in range (cntCol):    # find pairs of {key include in column}
             for j in range (len(indUnics)):
                 if i != indUnics[j]:    # same columns
-                    isIncl = DataProfiling.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
+                    isIncl = SecondaryFuncs.isColIncludedInCol(data[cols[i]], data[cols[indUnics[j]]])
                     if isIncl == True:
                         rel = PairsInRelations()
                         rel.setter(cols[indUnics[j]], cols[i])
@@ -736,6 +650,94 @@ class PairsInRelations(object):
             return True
         return False
 
+
+class SecondaryFuncs(object):
+
+    def isColIncludedInCol(inputCol, col):
+        isInCol = True
+
+        for i in range(len(inputCol)):
+            if SecondaryFuncs.isElInCol(col, inputCol[i]) == False:
+                isInCol = False
+
+        return isInCol
+
+    def isElInCol(col, el):
+        isInCol = False
+
+        for i in range(len(col)):
+            if col[i] == el:
+                isInCol = True
+
+        return isInCol
+
+    def elType(el):
+        return type(el)
+
+    def isIndInCol(col, ind):
+        cnt = len(col)
+        for i in range(cnt):
+            if str(col.index[i]) == str(ind):
+                return True
+        return False
+
+    def cleanElsFromSer(els, col):
+        resCol = col
+        indsDel = els.index
+
+        for i in range(len(indsDel)):
+            resCol = resCol.drop(labels=[int(indsDel[i])])  # int ???????????????
+
+        return resCol
+
+    def isNull(cnt):
+        return cnt == 0
+
+    def sumSer(col):
+        resCol = Cleaning.cleanSkipsSer(col)
+        delEls = Profiling.findMistakes(resCol)
+        resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
+
+        sum = 0
+
+        for el in resCol:
+            sum = sum + el
+
+        return sum
+
+    def isEqDF(df1, df2):
+
+        if df1.shape[0] * df1.shape[1] != df2.shape[0] * df2.shape[1] or df1.shape[0] != df2.shape[0] or df1.shape[1] != \
+                df2.shape[1]:
+            return False
+
+        cols1 = list(df1)
+        cols2 = list(df2)
+
+        if cols1 != cols2:
+            return False
+
+        for col in cols1:
+            for i in range(df1.shape[0]):
+                if str(df1[col][i]) != str(df2[col][i]):
+                    return False
+
+        return True
+
+    def isEqSer(ser1, ser2):
+        col1 = Cleaning.cleanSkipsSer(ser1)
+        col2 = Cleaning.cleanSkipsSer(ser2)
+
+        if len(col1) != len(col2):
+            return False
+
+        for i in range(len(col1)):
+            if SecondaryFuncs.isElInCol(list(col1.index), i) and SecondaryFuncs.isElInCol(list(col2.index), i) and col1[
+                i] != col2[i]:
+                return False
+
+        return True
+
 # ------------------------------------------------------------------------------------------------
 
 '''data = 'price,count,percent\n1,10,\n1,30,\n3,20,51'
@@ -778,4 +780,4 @@ print("--")
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
 #print(DP.datasetVisualizationSer())
 print(DP.dataStandardization())
-#print(DataProfiling.isEqSer(ser,ser1))
+#print(SecondaryFuncs.isEqSer(ser,ser1))

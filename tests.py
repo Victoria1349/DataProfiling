@@ -7,6 +7,7 @@ import math
 import unittest
 from DataProfiling import DataProfiling
 from DataProfiling import PairsInRelations
+from DataProfiling import SecondaryFuncs
 
 
 
@@ -78,7 +79,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -91,7 +92,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series(['150', '24'], [4, 6])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -104,7 +105,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -117,7 +118,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -130,7 +131,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -143,7 +144,7 @@ class findMistakesTests(unittest.TestCase):
 
         res = DP.findMistakes()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -160,7 +161,7 @@ class cntOfOneValueInColumnTests(unittest.TestCase):
 
         res = DP.cntOfOneValueInColumn()
         expRes = pd.Series([1,1,1,1,1,1,1,1,1,1,1,1,1,1,1], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -174,7 +175,7 @@ class cntOfOneValueInColumnTests(unittest.TestCase):
 
         res = DP.cntOfOneValueInColumn()
         expRes = pd.Series([2,2,2,2,1,1,1,1,1,1,1], [13, 10, 6, 3, 1, 2, 5, 8, 9, 12, 15])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -188,7 +189,7 @@ class cntOfOneValueInColumnTests(unittest.TestCase):
 
         res = DP.cntOfOneValueInColumn()
         expRes = pd.Series([15], [2])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -234,7 +235,7 @@ class dataStandardizationTests(unittest.TestCase):
 
         res = DP.dataStandardization()
         expRes = pd.Series([np.nan,np.nan,np.nan,np.nan,np.nan])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -252,9 +253,9 @@ class dataStandardizationTests(unittest.TestCase):
         print()
         print(res)
         print(expRes)
-        print(DataProfiling.isEqSer(res, expRes))
+        print(SecondaryFuncs.isEqSer(res, expRes))
 
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -267,7 +268,7 @@ class dataStandardizationTests(unittest.TestCase):
 
         res = DP.dataStandardization()
         expRes = pd.Series([-1.41, 0.0, 1.41, 0.0])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -280,7 +281,7 @@ class dataStandardizationTests(unittest.TestCase):
 
         res = DP.dataStandardization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -293,7 +294,7 @@ class dataStandardizationTests(unittest.TestCase):
 
         res = DP.dataStandardization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -306,7 +307,7 @@ class dataStandardizationTests(unittest.TestCase):
 
         res = DP.dataStandardization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -322,7 +323,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series([np.nan,np.nan,np.nan,np.nan,np.nan])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -335,7 +336,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series([0, 0.5, 1, 0.75])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -348,7 +349,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series([0, 0.5, 1, 0.5])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -361,7 +362,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -374,7 +375,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -387,7 +388,7 @@ class dataNormalizationTests(unittest.TestCase):
 
         res = DP.dataNormalization()
         expRes = pd.Series()
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -406,7 +407,7 @@ class findSkipsDFTests(unittest.TestCase):
 
         res = DP.findSkipsDF()
         expRes = pd.Series([])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -420,7 +421,7 @@ class findSkipsDFTests(unittest.TestCase):
 
         res = DP.findSkipsDF()
         expRes = pd.Series([{'price': 3}, {'percent': 0}])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -467,7 +468,7 @@ class cleanSkipsDFTests(unittest.TestCase):
 
         res = DP.cleanSkipsDF()
         expRes = pd.DataFrame(d)
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -487,7 +488,7 @@ class cleanSkipsDFTests(unittest.TestCase):
         print(res)
         print(expRes)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -533,7 +534,7 @@ class findSkipsSerTests(unittest.TestCase):
 
         res = DP.findSkipsSer()
         expRes = pd.Series([])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -591,7 +592,7 @@ class cleanSkipsSerTests(unittest.TestCase):
 
         res = DP.cleanSkipsSer()
         expRes = pd.Series([-200, 0, 2, 0, 150, 62, 24])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -605,7 +606,7 @@ class cleanSkipsSerTests(unittest.TestCase):
         res = DP.cleanSkipsSer()
         expRes = pd.Series([-200, 0, 2, 150, np.nan, 24])
 
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -648,7 +649,7 @@ class findEjectionsTests(unittest.TestCase):
 
         res = DP.findEjections()
         expRes = pd.Series([],[])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -661,7 +662,7 @@ class findEjectionsTests(unittest.TestCase):
 
         res = DP.findEjections()
         expRes = pd.Series([-200, 450],[7, 9])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -704,7 +705,7 @@ class cleanEjectionsTests(unittest.TestCase):
 
         res = DP.cleanEjections()
         expRes = pd.Series([-20, 0, 20, 0, 15, 6, 42, -20, 12, 4, 10, 10, 0, 22])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -718,7 +719,7 @@ class cleanEjectionsTests(unittest.TestCase):
         res = DP.cleanEjections()
         expRes = pd.Series([-20, 0, 20, 0, 15, 6, 42, 12, 4, 10, 10, 0, 22], [0,1,2,3,4,5,6,8,9,10,11,12,13])
 
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -762,7 +763,7 @@ class findNullsDFTests(unittest.TestCase):
 
         res = DP.findNullsDF()
         expRes = pd.Series([])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -776,7 +777,7 @@ class findNullsDFTests(unittest.TestCase):
 
         res = DP.findNullsDF()
         expRes = pd.Series([{'price': 3}, {'count': 0}, {'count': 2}, {'percent': 2}])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -823,7 +824,7 @@ class cleanNullsDFTests(unittest.TestCase):
 
         res = DP.cleanNullsDF()
         expRes = pd.DataFrame(d)
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -839,7 +840,7 @@ class cleanNullsDFTests(unittest.TestCase):
         d = {"price": [1, 2, 10, 5], "count": [0, 4, 0, 1], "percent": [8, 51, 0, 4]}
         expRes = pd.DataFrame(d)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -885,7 +886,7 @@ class findNullsSerTests(unittest.TestCase):
 
         res = DP.findNullsSer()
         expRes = pd.Series([])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -941,7 +942,7 @@ class cleanNullsSerTests(unittest.TestCase):
 
         res = DP.cleanNullsSer()
         expRes = pd.Series([-200, 10, 2, 10, 150, 62, 24])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -955,7 +956,7 @@ class cleanNullsSerTests(unittest.TestCase):
         res = DP.cleanNullsSer()
         expRes = pd.Series([-200, 2, np.nan, 150, 24], [0,2,3,4,6])
 
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1092,7 +1093,7 @@ class fillMissingDataTests(unittest.TestCase):
 
         res = DP.fillMissingData()
         expRes = pd.DataFrame(d)
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1108,7 +1109,7 @@ class fillMissingDataTests(unittest.TestCase):
         d = {"price": [1.0, 2.0, 10.0, 5.0, 4.5], "count": [0.0, 4.0, 0.0, 1.0, 1.25], "percent": [8.0, 20.0, 0.0, 4.0, 8.0]}
         expRes = pd.DataFrame(d)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1155,7 +1156,7 @@ class replacementMissingsTests(unittest.TestCase):
 
         res = DP.replacementMissings(1)
         expRes = pd.DataFrame(d)
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1171,7 +1172,7 @@ class replacementMissingsTests(unittest.TestCase):
         d = {"price": [1.0, 2.0, 10.0, 5.0, 1.0], "count": [0.0, 4.0, 0.0, 1.0, 1.0], "percent": [1.0, 20.0, 0.0, 4.0, 1.0]}
         expRes = pd.DataFrame(d)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1218,7 +1219,7 @@ class delDuplicatesTests(unittest.TestCase):
 
         res = DP.delDuplicates()
         expRes = pd.DataFrame(d)
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1234,7 +1235,7 @@ class delDuplicatesTests(unittest.TestCase):
         d = {"price":[1, 2, 0, 4], "count": [0, np.nan, 0, 3], "percent": [24, 51, 0, 0]}
         expRes = pd.DataFrame(d)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1250,7 +1251,7 @@ class delDuplicatesTests(unittest.TestCase):
         d = {"price": [1], "count": [0], "percent": [24]}
         expRes = pd.DataFrame(d)
 
-        if DataProfiling.isEqDF(res, expRes):
+        if SecondaryFuncs.isEqDF(res, expRes):
             result = True
         else:
             result = False
@@ -1301,7 +1302,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([1,1,1,1,1,1], [-200,0,2,42,62,150])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1314,7 +1315,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([1, 2, 2, 1], [-200, 0, 24, 150])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1327,7 +1328,7 @@ class distributionFuncTests(unittest.TestCase):
 
         res = DP.distributionFunc()
         expRes = pd.Series([7], [150])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1370,7 +1371,7 @@ class frequencyFuncTests(unittest.TestCase):
 
         res = DP.frequencyFunc()
         expRes = pd.Series([1,2,3], [-200,0,2])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1383,7 +1384,7 @@ class frequencyFuncTests(unittest.TestCase):
 
         res = DP.frequencyFunc()
         expRes = pd.Series([2,2,2], [-200,0,2])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
@@ -1396,7 +1397,7 @@ class frequencyFuncTests(unittest.TestCase):
 
         res = DP.frequencyFunc()
         expRes = pd.Series([4], [150])
-        if DataProfiling.isEqSer(res, expRes):
+        if SecondaryFuncs.isEqSer(res, expRes):
             result = True
         else:
             result = False
