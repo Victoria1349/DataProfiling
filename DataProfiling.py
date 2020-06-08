@@ -616,9 +616,8 @@ class Vizual(object):
         plt.show()
 
 
-    def datasetVisualizationSer(col):                 # !!!!!
-        col2 = col.cumsum()
-        col2.plot()
+    def datasetVisualizationSer(col):
+        col.plot()
         plt.show()
 
 
@@ -778,6 +777,6 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-#print(DP.datasetVisualizationSer())
-print(DP.dataStandardization())
+print(DP.datasetVisualizationSer())
+#print(DP.dataStandardization())
 #print(SecondaryFuncs.isEqSer(ser,ser1))
