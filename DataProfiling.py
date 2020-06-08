@@ -201,10 +201,10 @@ class DataProfiling(object):
 
 
 
-    def datasetVisualizationDF(self):                 # !!!!!
+    def datasetVisualizationDF(self):
         Vizual.datasetVisualizationDF(self.data)
 
-    def datasetVisualizationSer(self):                 # !!!!!
+    def datasetVisualizationSer(self):
         resCol = self.col
         delEls = Profiling.findMistakes(resCol)
         resCol = SecondaryFuncs.cleanElsFromSer(delEls, resCol)
