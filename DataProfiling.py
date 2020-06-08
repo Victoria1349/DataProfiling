@@ -604,15 +604,8 @@ class Structures(object):
 
 class Vizual(object):
 
-    def datasetVisualizationDF(data):                 # !!!!!
-        #pd.plotting.scatter_matrix(data, alpha = 0.7, figsize = (14,8))
-
-        df = data.cumsum()
-        '''plt.figure();'''
-        #df.plot();
-
-        df.plot(kind='bar');
-
+    def datasetVisualizationDF(data):
+        data.plot()
         plt.show()
 
 
@@ -756,7 +749,7 @@ d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1,
 #d = {"price": [1, 2, 0, 5, np.nan], "count": [0, 4, 0, 1, np.nan], "percent": [np.nan, 51, 0, 4, np.nan]}
 #d = {"price": [0, 0, 0], "count": [0, 0, 0], "percent": [0, 0, 0]}
 df = pd.DataFrame(d)
-#print(df)
+print(df)
 
 #ser = pd.Series([np.nan, 20, 10, 0, 40, 0], ['a', 'b', 'c', 'd', 'e', 'f'])
 #ser = pd.Series([22, 24, -60, 32, -200, 34, 200, 0, 24.0, 43, 44, 43, 57, 88, 150, '62', 67, 81], ['a', 'b', 'c', 'd', 'e', 'f', 'j', 'h', 'i', 'g', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r'])
@@ -767,7 +760,7 @@ df = pd.DataFrame(d)
 #ser = pd.Series([-20, 0, 20, 0, 15, np.nan, '42', -200, 12, 45, 10, 10, 0, 22])
 ser = pd.Series([-10, 0, 10, 5])
 #ser = pd.Series()
-print(ser)
+#print(ser)
 
 print()
 
@@ -777,6 +770,6 @@ DP.__setSeries__(ser)
 print("--")
 
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DP.datasetVisualizationSer())
+print(DP.datasetVisualizationDF())
 #print(DP.dataStandardization())
 #print(SecondaryFuncs.isEqSer(ser,ser1))
