@@ -1,9 +1,7 @@
 # Python 3
 import pandas as pd
 import numpy as np
-#from io import StringIO
 import matplotlib.pyplot as plt
-#import seaborn as sns
 import math
 from pandas import MultiIndex
 
@@ -366,22 +364,16 @@ class Cleaning(object):
         #indIqr = indQ3 - indQ1
 
         if(indQ1 % 1 != 0):
-            #print(indQ1)
             ind1 = math.floor(indQ1)
             ind2 = math.ceil(indQ1)
-            #print(ind1-1, ind2-1)
-            #print()
             q1 = (col2[ind1-1] + col2[ind2-1]) / 2
 
         else:
             q1 = col2[indQ1 - 1]
 
         if (indQ3 % 1 != 0):
-            #print(indQ3)
             ind1 = math.floor(indQ3)
             ind2 = math.ceil(indQ3)
-            #print(ind1-1, ind2-1)
-            #print()
             q3 = (col2[ind1-1] + col2[ind2-1]) / 2
 
         else:
@@ -389,12 +381,9 @@ class Cleaning(object):
 
         #iqr = col2[indIqr - 1]
         iqr = q3 - q1
-        #print(q1, q3, iqr, "!!!")
 
         left = q1 - iqr*1.5
         right = q3 + iqr*1.5
-        #print(left, right)
-        #print()
 
         for i in range (n):
             if(col2[i] < left or col2[i] > right):
@@ -407,9 +396,6 @@ class Cleaning(object):
         resCol = col
 
         resCol = SecondaryFuncs.cleanElsFromSer(delEl, resCol)
-
-        '''for i in range (len(delEl)):
-            resCol = resCol.drop(labels=delEl.index[i])'''
 
         return resCol
 
@@ -545,7 +531,7 @@ class Statistics(object):
                 nums[str(el)] = 1
 
         plt.hist(col)
-        #plt.show()                 tests
+        plt.show()
 
         return nums
 
@@ -678,7 +664,7 @@ class SecondaryFuncs(object):
         indsDel = els.index
 
         for i in range(len(indsDel)):
-            resCol = resCol.drop(labels=[int(indsDel[i])])  # int ???????????????
+            resCol = resCol.drop(labels=[int(indsDel[i])])
 
         return resCol
 
@@ -724,8 +710,7 @@ class SecondaryFuncs(object):
             return False
 
         for i in range(len(col1)):
-            if SecondaryFuncs.isElInCol(list(col1.index), i) and SecondaryFuncs.isElInCol(list(col2.index), i) and col1[
-                i] != col2[i]:
+            if SecondaryFuncs.isElInCol(list(col1.index), i) and SecondaryFuncs.isElInCol(list(col2.index), i) and col1[i] != col2[i]:
                 return False
 
         return True
@@ -736,7 +721,7 @@ d = {"price": [1, 2, 3, 4, 5], "count": [1, 4, 3, 3, 1], "percent": [3, 4, 5, 1,
 df = pd.DataFrame(d)
 print(df)
 
-ser = pd.Series([-10, 0, 10, 5])
+ser = pd.Series([-10, 0, 10, 5, np.nan])
 print(ser)
 
 DP = DataProfiling()
@@ -744,5 +729,6 @@ DP.__setDF__(df)
 DP.__setSeries__(ser)
 print("--")
 
+print(DP.dataNormalization())
+
 #'D:\\I\\Studies\\8_semester\\_Diploma\\DataProfiling\\report.xls'
-print(DP.maxValue())
